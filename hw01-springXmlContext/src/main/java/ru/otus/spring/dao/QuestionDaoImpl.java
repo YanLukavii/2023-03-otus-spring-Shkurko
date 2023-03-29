@@ -23,7 +23,7 @@ public class QuestionDaoImpl implements QuestionDao {
         try (Scanner sc = new Scanner(resource.getInputStream())) {
             while (sc.hasNext()) {
                 String line = sc.nextLine();
-                String[] splitLine = line.split(",");
+                String[] splitLine = line.split(";");
                 questionList.add(new Question(splitLine[0], List.of(splitLine[1], splitLine[2], splitLine[3])));
             }
         } catch (IOException e) {
