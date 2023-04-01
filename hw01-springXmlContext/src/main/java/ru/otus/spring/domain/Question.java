@@ -1,13 +1,14 @@
 package ru.otus.spring.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+
 import java.util.List;
 
 @ToString
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Question {
 
     private final String question;

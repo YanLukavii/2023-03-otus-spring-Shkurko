@@ -4,16 +4,20 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="resourceReader" class="ru.otus.spring.repository.ResourceReader">
-        <property name="resource" value="classpath:questions.csv"/>
+    <bean id="resourceProvider" class="ru.otus.spring.repository.ResourceProvider">
+        <property name="filePath" value="questions.csv"/>
     </bean>
 
     <bean id="questionDao" class="ru.otus.spring.dao.QuestionDaoImpl">
-        <constructor-arg index="0" ref="resourceReader"/>
+        <constructor-arg index="0" ref="resourceProvider"/>
+    </bean>
+
+    <bean id="outputQuestionAndAnswers" class="ru.otus.spring.service.OutputQuestionAndAnswersServiceImpl">
     </bean>
 
     <bean id="questionService" class="ru.otus.spring.service.QuestionsServiceImpl">
         <constructor-arg index="0" ref="questionDao"/>
+        <constructor-arg index="1" ref="outputQuestionAndAnswers"/>
     </bean>
 
 </beans>

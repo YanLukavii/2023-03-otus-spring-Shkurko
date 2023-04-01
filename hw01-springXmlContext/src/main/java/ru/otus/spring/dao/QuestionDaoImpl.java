@@ -1,34 +1,38 @@
 package ru.otus.spring.dao;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import ru.otus.spring.domain.Question;
-import ru.otus.spring.repository.ResourceReader;
+import ru.otus.spring.repository.ResourceProvider;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class QuestionDaoImpl implements QuestionDao {
 
-    private final ResourceReader resourceReader;
+    private final ResourceProvider resourceProvider;
 
     @Override
     public List<Question> findAll() {
 
         List<Question> questionList = new ArrayList<>();
 
-        var resource = resourceReader.getResource();
+        var fileName = resourceProvider.getFilePath();
 
-        try (Scanner sc = new Scanner(resource.getInputStream())) {
+        try (var inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
+             var sc = new Scanner(inputStream)) {
+
             while (sc.hasNext()) {
-                String line = sc.nextLine();
+                var line = sc.nextLine();
                 String[] splitLine = line.split(";");
                 questionList.add(new Question(splitLine[0], List.of(splitLine[1], splitLine[2], splitLine[3])));
+
             }
-        } catch (IOException e) {
-             System.err.println(e.getMessage());
-         }
+        } catch (IOException | NullPointerException exception) {
+            System.err.println(exception.getMessage());
+        }
         return questionList;
     }
 }

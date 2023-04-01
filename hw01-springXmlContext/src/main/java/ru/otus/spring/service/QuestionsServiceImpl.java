@@ -1,17 +1,21 @@
 package ru.otus.spring.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import ru.otus.spring.dao.QuestionDao;
 import ru.otus.spring.domain.Question;
-import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class QuestionsServiceImpl implements QuestionService {
 
     private final QuestionDao questionDao;
 
+    private final OutputQuestionAndAnswersService outputQuestionAndAnswersService;
+
     @Override
-    public List<Question> getAll() {
-        return questionDao.findAll();
+    public void printAllQuestions() {
+
+        for (Question question : questionDao.findAll()) {
+            outputQuestionAndAnswersService.printQuestion(question);
+        }
     }
 }
