@@ -82,11 +82,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>${maven.shade.plugin.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
