@@ -29,7 +29,7 @@ public class QuestionServiceImplTest {
 
     @DisplayName("корректно выводит вопросы и ответы")
     @Test
-    void shouldReturnCorrectOutputWhenCalPrintAllQuestions() {
+    void shouldReturnCorrectOutputWhenCallPrintAllQuestions() {
 
         Mockito.when(questionDao.findAll()).thenReturn(List.of(question));
         var questionsService = new QuestionsServiceImpl(questionDao, new OutputQuestionAndAnswersServiceImpl());
