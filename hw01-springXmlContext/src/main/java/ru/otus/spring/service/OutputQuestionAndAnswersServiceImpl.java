@@ -1,15 +1,18 @@
 package ru.otus.spring.service;
 
-import lombok.NoArgsConstructor;
+import lombok.Data;
 import ru.otus.spring.domain.Question;
 
-@NoArgsConstructor
+@Data
 public class OutputQuestionAndAnswersServiceImpl implements OutputQuestionAndAnswersService {
+
+    private final IOService ioService;
+
     public void printQuestion(Question question) {
-        System.out.println("Question: " + question.getQuestion());
+        ioService.print("Question: " + question.getQuestion());
 
         for (String answer : question.getAnswers()) {
-            System.out.println("Answer: " + answer);
+            ioService.print("Answer: " + answer);
         }
     }
 

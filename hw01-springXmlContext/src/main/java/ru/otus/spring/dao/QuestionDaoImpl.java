@@ -31,7 +31,7 @@ public class QuestionDaoImpl implements QuestionDao {
 
             }
         } catch (IOException | NullPointerException exception) {
-            System.err.println(exception.getMessage());
+            throw new QuestionDaoException(exception.getMessage(), exception.getCause());
         }
         return questionList;
     }

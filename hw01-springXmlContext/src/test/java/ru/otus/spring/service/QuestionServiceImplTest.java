@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class QuestionServiceImplTest {
 
     QuestionDao questionDao = Mockito.spy(QuestionDao.class);
+
     Question question = new Question("what is the best beer?",
             List.of("baltika", "saldens", "franziskaner"));
 
@@ -32,23 +33,16 @@ public class QuestionServiceImplTest {
     void shouldReturnCorrectOutputWhenCallPrintAllQuestions() {
 
         Mockito.when(questionDao.findAll()).thenReturn(List.of(question));
-        var questionsService = new QuestionsServiceImpl(questionDao, new OutputQuestionAndAnswersServiceImpl());
-        String actualOutput = getOutputAsStringWhenQuestionServiceCallMethodPrintAllQuestions(questionsService);
-
-        assertEquals(expectedOutput, actualOutput);
-
-    }
-
-    String getOutputAsStringWhenQuestionServiceCallMethodPrintAllQuestions(QuestionService questionService) {
 
         var byteArrayOutputStream = new ByteArrayOutputStream();
-        var printStream = new PrintStream(byteArrayOutputStream);
-        var oldStream = System.out;
-        System.setOut(printStream);
-        questionService.printAllQuestions();
-        System.out.flush();
-        System.setOut(oldStream);
+        var ioService = new IOServiceImpl(new PrintStream(byteArrayOutputStream));
 
-        return  String.valueOf(byteArrayOutputStream);
+        var questionsService = new QuestionsServiceImpl(questionDao,
+                new OutputQuestionAndAnswersServiceImpl(ioService));
+
+        questionsService.printAllQuestions();
+
+        assertEquals(expectedOutput, String.valueOf(byteArrayOutputStream));
+
     }
 }
