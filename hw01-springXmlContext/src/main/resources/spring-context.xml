@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <util:constant id = "out" static-field="java.lang.System.out"/>
+
+    <bean id="resourceProvider" class="ru.otus.spring.repository.ResourceProvider">
+        <property name="filePath" value="questions.csv"/>
+    </bean>
+
+    <bean id="questionDao" class="ru.otus.spring.dao.QuestionDaoImpl">
+        <constructor-arg index="0" ref="resourceProvider"/>
+    </bean>
+
+    <bean id="outputQuestionAndAnswers" class="ru.otus.spring.service.OutputQuestionAndAnswersServiceImpl">
+        <constructor-arg index="0" ref="ioService"/>
+    </bean>
+
+    <bean id="ioService" class="ru.otus.spring.service.IOServiceImpl">
+        <constructor-arg index="0" ref="out" />
+    </bean>
+
+    <bean id="questionService" class="ru.otus.spring.service.QuestionsServiceImpl">
+        <constructor-arg index="0" ref="questionDao"/>
+        <constructor-arg index="1" ref="outputQuestionAndAnswers"/>
+    </bean>
+
+</beans>

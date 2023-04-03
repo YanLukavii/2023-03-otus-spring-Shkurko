@@ -1,5 +1,5 @@
-target/
-
+hw01-springXmlContext/target/
+dependency-reduced-pom.xml
 ### STS ###
 .apt_generated
 .classpath
