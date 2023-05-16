@@ -14,7 +14,7 @@
         <constructor-arg index="0" ref="resourceProvider"/>
     </bean>
 
-    <bean id="outputQuestionAndAnswers" class="ru.otus.spring.service.OutputQuestionAndOptionsServiceImpl">
+    <bean id="outputQuestionAndAnswers" class="ru.otus.spring.service.OutputQuestionAndAnswersServiceImpl">
         <constructor-arg index="0" ref="ioService"/>
     </bean>
 
