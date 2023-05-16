@@ -33,12 +33,15 @@ public class QuestionDaoImpl implements QuestionDao {
             while (sc.hasNext()) {
                 var line = sc.nextLine();
                 String[] splitLine = line.split(";");
-                questionList.add(new Question(splitLine[0],
-                        List.of(splitLine[1], splitLine[2], splitLine[3]),
-                        Integer.parseInt(splitLine[4])));
-
+                if (splitLine.length == 5) {
+                    questionList.add(new Question(splitLine[0],
+                            List.of(splitLine[1], splitLine[2], splitLine[3]),
+                            Integer.parseInt(splitLine[4])));
+                } else {
+                    throw new RuntimeException("something with file");
+                }
             }
-        } catch (IOException | NullPointerException exception) {
+        } catch (IOException exception) {
             throw new QuestionDaoException(exception.getMessage(), exception.getCause());
         }
         return questionList;
