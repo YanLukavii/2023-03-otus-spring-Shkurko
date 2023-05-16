@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.otus</groupId>
-    <artifactId>hw01-springXmlContext</artifactId>
+    <artifactId>hw02-springAnnotationContext</artifactId>
     <version>1.0</version>
 
     <properties>
@@ -87,12 +87,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>${sl4j.simple.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>6.0.7</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 
