@@ -20,8 +20,7 @@ public class OutputQuestionAndOptionsServiceImplTest {
     Question question = new Question("what is the best beer?",
             List.of("baltika", "saldens", "franziskaner"), 1);
 
-    String expectedOutput ="Question: what is the best beer?\r\n1) baltika\r\n2) saldens\r\n3) franziskaner\r\n";
-
+    String expectedOutput ="Question:what is the best beer?\r\n1) baltika\r\n2) saldens\r\n3) franziskaner\r\n";
 
     @DisplayName("корректно выводит вопросы и ответы")
     @Test
@@ -29,7 +28,7 @@ public class OutputQuestionAndOptionsServiceImplTest {
 
         Mockito.when(localizationAppPropertiesProvider
                         .getPropertyValue("output.question"))
-                .thenReturn("Question: ");
+                .thenReturn("Question:");
         var byteArrayOutputStream = new ByteArrayOutputStream();
         var ioService = new IOServiceImpl(new PrintStream(byteArrayOutputStream), System.in);
 
