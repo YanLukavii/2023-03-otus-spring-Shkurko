@@ -19,12 +19,7 @@ public class OutputQuestionAndOptionsServiceImplTest {
     Question question = new Question("what is the best beer?",
             List.of("baltika", "saldens", "franziskaner"), 1);
 
-    String expectedOutput = """
-            Question: what is the best beer?\n
-            1) baltika\n
-            2) saldens\n
-            3) franziskaner\n
-            """;
+    String expectedOutput ="Question: what is the best beer?\r\n1) baltika\r\n2) saldens\r\n3) franziskaner\r\n";
 
 
     @DisplayName("корректно выводит вопросы и ответы")
