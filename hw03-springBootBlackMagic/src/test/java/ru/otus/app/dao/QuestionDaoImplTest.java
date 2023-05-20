@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import ru.otus.app.dao.QuestionDao;
-import ru.otus.app.dao.QuestionDaoImpl;
 import ru.otus.app.domain.Question;
 import ru.otus.app.repository.ResourceProvider;
 

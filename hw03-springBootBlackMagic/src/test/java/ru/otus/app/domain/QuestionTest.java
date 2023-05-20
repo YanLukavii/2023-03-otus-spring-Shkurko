@@ -2,7 +2,6 @@ package ru.otus.app.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.otus.app.domain.Question;
 
 import java.util.List;
 

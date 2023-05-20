@@ -4,8 +4,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.otus.app.repository.LocalizationAppPropertiesProvider;
-import ru.otus.app.service.IOService;
-import ru.otus.app.service.StudentServiceImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

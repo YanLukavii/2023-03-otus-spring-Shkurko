@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.otus.app.domain.Question;
 import ru.otus.app.repository.LocalizationAppPropertiesProvider;
-import ru.otus.app.service.IOServiceImpl;
-import ru.otus.app.service.OutputQuestionAndOptionsServiceImpl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
