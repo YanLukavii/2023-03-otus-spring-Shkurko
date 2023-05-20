@@ -14,7 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Класс OutputQuestionAndOptionsServiceImpl")
 public class OutputQuestionAndOptionsServiceImplTest {
-    LocalizationAppPropertiesProvider localizationAppPropertiesProvider = Mockito.mock(LocalizationAppPropertiesProvider.class);
+    LocalizationAppPropertiesProvider localizationAppPropertiesProvider
+            = Mockito.mock(LocalizationAppPropertiesProvider.class);
 
     Question question = new Question("what is the best beer?",
             List.of("baltika", "saldens", "franziskaner"), 1);
@@ -32,7 +33,8 @@ public class OutputQuestionAndOptionsServiceImplTest {
         var byteArrayOutputStream = new ByteArrayOutputStream();
         var ioService = new IOServiceImpl(new PrintStream(byteArrayOutputStream), System.in);
 
-        var outputQuestionAndOptionsService = new OutputQuestionAndOptionsServiceImpl(ioService, localizationAppPropertiesProvider);
+        var outputQuestionAndOptionsService = new OutputQuestionAndOptionsServiceImpl(ioService,
+                localizationAppPropertiesProvider);
 
         outputQuestionAndOptionsService.printQuestionAndOptions(question);
 
