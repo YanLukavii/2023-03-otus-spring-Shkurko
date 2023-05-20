@@ -1,4 +1,4 @@
-package ru.otus.spring.dao;
+package ru.otus.app.dao;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
