@@ -20,10 +20,10 @@ public class OutputQuestionAndOptionsServiceImplTest {
             List.of("baltika", "saldens", "franziskaner"), 1);
 
     String expectedOutput = """
-            Question: what is the best beer?\r
-            1) baltika\r
-            2) saldens\r
-            3) franziskaner\r
+            Question: what is the best beer?\n
+            1) baltika\n
+            2) saldens\n
+            3) franziskaner\n
             """;
 
 
@@ -31,15 +31,13 @@ public class OutputQuestionAndOptionsServiceImplTest {
     @Test
     void shouldReturnCorrectOutputWhenCallQuestionAndOptions() {
 
-
+        Mockito.when(localizationAppPropertiesProvider
+                        .getPropertyValue("output.question"))
+                .thenReturn("Question: ");
         var byteArrayOutputStream = new ByteArrayOutputStream();
         var ioService = new IOServiceImpl(new PrintStream(byteArrayOutputStream), System.in);
 
         var outputQuestionAndOptionsService = new OutputQuestionAndOptionsServiceImpl(ioService, localizationAppPropertiesProvider);
-
-        Mockito.when(localizationAppPropertiesProvider
-                        .getPropertyValue("output.question"))
-                .thenReturn("Question: ");
 
         outputQuestionAndOptionsService.printQuestionAndOptions(question);
 
