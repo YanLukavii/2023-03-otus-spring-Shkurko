@@ -1,8 +1,8 @@
 package ru.otus.app.dao;
 
 import org.springframework.stereotype.Service;
+import ru.otus.app.configs.providers.QuestionsPathProvider;
 import ru.otus.app.domain.Question;
-import ru.otus.app.repository.ResourceProvider;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,11 +12,10 @@ import java.util.Scanner;
 @Service
 public class QuestionDaoImpl implements QuestionDao {
 
-    private final ResourceProvider resourceProvider;
+    private final QuestionsPathProvider questionsPathProvider;
 
-
-    public QuestionDaoImpl(ResourceProvider resourceProvider) {
-        this.resourceProvider = resourceProvider;
+    public QuestionDaoImpl(QuestionsPathProvider questionsPathProvider) {
+        this.questionsPathProvider = questionsPathProvider;
     }
 
     @Override
@@ -24,7 +23,7 @@ public class QuestionDaoImpl implements QuestionDao {
 
         List<Question> questionList = new ArrayList<>();
 
-        var fileName = resourceProvider.getFilePath();
+        var fileName = questionsPathProvider.getQuestionsPath();
 
         try (var inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
              var sc = new Scanner(inputStream)) {

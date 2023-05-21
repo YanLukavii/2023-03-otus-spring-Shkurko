@@ -3,7 +3,7 @@ package ru.otus.app.service;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 import ru.otus.app.domain.Question;
-import ru.otus.app.repository.LocalizationAppPropertiesProvider;
+import ru.otus.app.configs.providers.LocalizationSettingsProvider;
 
 @Service
 @Data
@@ -11,17 +11,17 @@ public class OutputQuestionAndOptionsServiceImpl implements OutputQuestionAndOpt
 
     private final IOService ioService;
 
-    private final LocalizationAppPropertiesProvider localizationAppPropertiesProvider;
+    private final LocalizationSettingsProvider localizationSettingsProvider;
 
     public OutputQuestionAndOptionsServiceImpl(IOService ioService,
-                                               LocalizationAppPropertiesProvider localizationAppPropertiesProvider) {
+                                               LocalizationSettingsProvider localizationSettingsProvider) {
         this.ioService = ioService;
-        this.localizationAppPropertiesProvider = localizationAppPropertiesProvider;
+        this.localizationSettingsProvider = localizationSettingsProvider;
     }
 
     public void printQuestionAndOptions(Question question) {
 
-        ioService.print(localizationAppPropertiesProvider.getPropertyValue("output.question")
+        ioService.print(localizationSettingsProvider.getOutputQuestionMessage()
                 + question.getQuestion());
 
         int answerOption = 0;

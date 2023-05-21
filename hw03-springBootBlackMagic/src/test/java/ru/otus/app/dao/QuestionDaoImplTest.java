@@ -4,15 +4,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import ru.otus.app.configs.providers.QuestionsPathProvider;
 import ru.otus.app.domain.Question;
-import ru.otus.app.repository.ResourceProvider;
 
 import java.util.List;
 
 @DisplayName("класс QuestionDaoImpl")
 public class QuestionDaoImplTest {
 
-    ResourceProvider resourceProvider = Mockito.spy(ResourceProvider.class);
+    QuestionsPathProvider questionsPathProvider = Mockito.mock(QuestionsPathProvider.class);
 
     List<Question> expectedQuestionList = List.of(new Question("what is the best beer?",
             List.of("baltika", "saldens", "franziskaner"), 1));
@@ -21,8 +21,8 @@ public class QuestionDaoImplTest {
     @Test
     void shouldReturnCorrectListWithQuestions() {
 
-        Mockito.when(resourceProvider.getFilePath()).thenReturn("questions_en.csv");
-        QuestionDao questionDao = new QuestionDaoImpl(resourceProvider);
+        Mockito.when(questionsPathProvider.getQuestionsPath()).thenReturn("questions_en.csv");
+        QuestionDao questionDao = new QuestionDaoImpl(questionsPathProvider);
 
         List<Question> actualQusetionList = questionDao.findAll();
 

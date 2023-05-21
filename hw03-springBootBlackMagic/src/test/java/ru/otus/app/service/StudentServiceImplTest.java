@@ -3,7 +3,7 @@ package ru.otus.app.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import ru.otus.app.repository.LocalizationAppPropertiesProvider;
+import ru.otus.app.configs.LocalizationAppProps;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -12,7 +12,7 @@ public class StudentServiceImplTest {
 
     IOService ioService = Mockito.spy(IOService.class);
 
-    LocalizationAppPropertiesProvider localizationAppPropertiesProvider = Mockito.mock(LocalizationAppPropertiesProvider.class);
+    LocalizationAppProps localizationAppProps = Mockito.mock(LocalizationAppProps.class);
 
     String name = "Vasyl";
 
@@ -26,7 +26,7 @@ public class StudentServiceImplTest {
                 .thenReturn(name)
                 .thenReturn(surname);
 
-        var studentServiceImpl = new StudentServiceImpl(ioService, localizationAppPropertiesProvider);
+        var studentServiceImpl = new StudentServiceImpl(ioService, localizationAppProps);
         var student = studentServiceImpl.createStudent();
 
         assertEquals(name, student.getName());
