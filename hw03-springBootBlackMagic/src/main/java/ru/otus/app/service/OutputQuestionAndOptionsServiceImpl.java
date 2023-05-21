@@ -1,12 +1,10 @@
 package ru.otus.app.service;
 
-import lombok.Data;
 import org.springframework.stereotype.Service;
-import ru.otus.app.domain.Question;
 import ru.otus.app.configs.providers.LocalizationSettingsProvider;
+import ru.otus.app.domain.Question;
 
 @Service
-@Data
 public class OutputQuestionAndOptionsServiceImpl implements OutputQuestionAndOptionsService {
 
     private final IOService ioService;
