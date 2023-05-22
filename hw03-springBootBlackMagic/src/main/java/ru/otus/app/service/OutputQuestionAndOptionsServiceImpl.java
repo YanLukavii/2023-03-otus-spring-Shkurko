@@ -1,25 +1,25 @@
 package ru.otus.app.service;
 
 import org.springframework.stereotype.Service;
-import ru.otus.app.configs.providers.LocalizationSettingsProvider;
 import ru.otus.app.domain.Question;
+import ru.otus.app.repository.LocalizationAppPropertiesProvider;
 
 @Service
 public class OutputQuestionAndOptionsServiceImpl implements OutputQuestionAndOptionsService {
 
     private final IOService ioService;
 
-    private final LocalizationSettingsProvider localizationSettingsProvider;
+    private final LocalizationAppPropertiesProvider localizationAppPropertiesProvider;
 
     public OutputQuestionAndOptionsServiceImpl(IOService ioService,
-                                               LocalizationSettingsProvider localizationSettingsProvider) {
+                                               LocalizationAppPropertiesProvider localizationAppPropertiesProvider) {
         this.ioService = ioService;
-        this.localizationSettingsProvider = localizationSettingsProvider;
+        this.localizationAppPropertiesProvider = localizationAppPropertiesProvider;
     }
 
     public void printQuestionAndOptions(Question question) {
 
-        ioService.print(localizationSettingsProvider.getOutputQuestionMessage()
+        ioService.print(localizationAppPropertiesProvider.getPropertyValue("output.question")
                 + question.getQuestion());
 
         int answerOption = 0;
