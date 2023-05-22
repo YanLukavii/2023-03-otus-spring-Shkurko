@@ -8,14 +8,16 @@ import ru.otus.app.configs.providers.LocaleProvider;
 @Service
 public class ResourceProvider {
 
-    private final String filePath;
+    private final LocaleProvider localeProvider;
+    private final MessageSource messageSource;
 
     @Autowired
     public ResourceProvider(LocaleProvider localeProvider, MessageSource messageSource) {
-        this.filePath = messageSource.getMessage("file.questions", null, localeProvider.getLocale());
+        this.localeProvider = localeProvider;
+        this.messageSource = messageSource;
     }
 
     public String getFilePath() {
-        return filePath;
+        return messageSource.getMessage("file.questions", null, localeProvider.getLocale());
     }
 }
