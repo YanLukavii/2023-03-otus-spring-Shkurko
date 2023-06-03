@@ -13,5 +13,6 @@
     <modules>
         <module>hw01-springXmlContext</module>
         <module>hw02-springAnnotationContext</module>
+        <module>hw03-springBootBlackMagic</module>
     </modules>
 </project>
