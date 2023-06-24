@@ -1,0 +1,11 @@
+spring:
+  shell:
+    interactive:
+      enabled: false
+  messages:
+    basename: "i18n/appmessages"
+    encoding: "UTF-8"
+
+application:
+  points: 2
+  locale: en
