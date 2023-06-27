@@ -1,18 +1,14 @@
-DROP TABLE IF EXISTS Author;
-DROP TABLE IF EXISTS Genre;
-DROP TABLE IF EXISTS Book;
-
-CREATE TABLE Author (
+CREATE TABLE IF NOT EXISTS Author (
     id BIGINT auto_increment PRIMARY KEY ,
     name VARCHAR(255)
 );
 
-CREATE TABLE Genre (
+CREATE TABLE IF NOT EXISTS Genre (
     id BIGINT auto_increment PRIMARY KEY ,
     name VARCHAR(255)
 );
 
-CREATE TABLE Book (
+CREATE TABLE IF NOT EXISTS Book (
     id BIGINT auto_increment PRIMARY KEY,
     name VARCHAR(255),
     author_id BIGINT,
