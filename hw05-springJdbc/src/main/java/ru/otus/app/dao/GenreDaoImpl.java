@@ -38,6 +38,19 @@ public class GenreDaoImpl implements GenreDao {
         }
     }
 
+    @Override
+    public Optional<Genre> getGenreById(long id) {
+
+        try {
+            Map<String, Object> params = Collections.singletonMap("id", id);
+            return namedParameterJdbcOperations.queryForObject(
+                    "select id, name from genre where id = :id", params, new OptionalGenreMapper()
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
     public static class GenreMapper implements RowMapper<Genre> {
 
         @Override
@@ -46,6 +59,16 @@ public class GenreDaoImpl implements GenreDao {
             String name = rs.getString("name");
 
             return new Genre(id, name);
+        }
+    }
+
+    private static class OptionalGenreMapper implements RowMapper<Optional<Genre>> {
+
+        @Override
+        public Optional<Genre> mapRow(ResultSet rs, int rowNum) throws SQLException {
+            long id = rs.getLong("id");
+            String name = rs.getString("name");
+            return Optional.of(new Genre(id, name));
         }
     }
 }

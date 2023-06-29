@@ -42,5 +42,12 @@ public class GenreDaoImplTest {
         assertThat(actualGenre).usingRecursiveComparison().isEqualTo(expectedGenre);
     }
 
+    @DisplayName("возвращать ожидаемый жанр по его ID")
+    @Test
+    void shouldReturnExpectedGenreById() {
 
+        Optional<Genre> expectedGenre = Optional.of(new Genre(EXISTING_GENRE_ID, EXISTING_GENRE_NAME));
+        Optional<Genre> actualGenre = genreDao.getGenreById(expectedGenre.orElseThrow().getId());
+        assertThat(actualGenre).usingRecursiveComparison().isEqualTo(expectedGenre);
+    }
 }

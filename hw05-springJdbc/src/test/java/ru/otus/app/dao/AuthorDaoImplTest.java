@@ -40,4 +40,13 @@ public class AuthorDaoImplTest {
         Optional<Author> actualAuthor = authorDao.getAuthorByName("Author 2");
         assertThat(actualAuthor).usingRecursiveComparison().isEqualTo(expectedAuthor);
     }
+
+    @DisplayName("возвращать ожидаемого автора по его ID")
+    @Test
+    void shouldReturnExpectedAuthorById() {
+
+        Optional<Author> expectedAuthor = Optional.of(new Author(EXISTING_AUTHOR_ID, EXISTING_AUTHOR_NAME));
+        Optional<Author> actualAuthor = authorDao.getAuthorById(expectedAuthor.orElseThrow().getId());
+        assertThat(actualAuthor).usingRecursiveComparison().isEqualTo(expectedAuthor);
+    }
 }

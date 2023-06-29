@@ -3,7 +3,6 @@ package ru.otus.app.dao;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -14,10 +13,8 @@ import ru.otus.app.domain.Book;
 import ru.otus.app.domain.Genre;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 
 @DisplayName("Dao для работы с  книгами должно ")
 @JdbcTest
@@ -50,14 +47,9 @@ class BookDaoImplTest {
     @Test
     void shouldInsertBook() {
 
-        Mockito.when(authorDao.getAuthorByName(any()))
-                .thenReturn(Optional.of(new Author(1, EXISTING_AUTHOR_NAME)));
-        Mockito.when(genreDao.getGenreByName(any()))
-                .thenReturn(Optional.of(new Genre(1, EXISTING_GENRE_NAME)));
-
-        Book expectedBook = new Book(2,EXISTING_BOOK_NAME,
-                new Author(1,EXISTING_AUTHOR_NAME),
-                new Genre(1,EXISTING_GENRE_NAME));
+        Book expectedBook = new Book(2, EXISTING_BOOK_NAME,
+                new Author(1, EXISTING_AUTHOR_NAME),
+                new Genre(1, EXISTING_GENRE_NAME));
         bookDao.insertNewBook(expectedBook);
 
         Book actualBook = bookDao.getBookById(2);
@@ -97,5 +89,4 @@ class BookDaoImplTest {
         assertThat(actualBookList)
                 .containsExactlyInAnyOrder(expectedBook);
     }
-
 }

@@ -35,21 +35,11 @@ public class BookDaoImpl implements BookDao {
     @Override
     public void insertNewBook(Book book) {
 
-        String authorName = book.getAuthor().getName();
-        String genreName = book.getGenre().getName();
-
-        if (authorDao.getAuthorByName(authorName).isEmpty()) {
-            authorDao.insertNewAuthor(new Author(authorName));
-        }
-        if (genreDao.getGenreByName(genreName).isEmpty()) {
-            genreDao.insertNewGenre(new Genre(genreName));
-        }
-
         namedParameterJdbcOperations
                 .update("insert into book (name, author_id, genre_id) values (:name, :author_id, :genre_id)",
                         Map.of("name", book.getName(),
-                                "author_id", authorDao.getAuthorByName(authorName).orElseThrow().getId(),
-                                "genre_id", genreDao.getGenreByName(genreName).orElseThrow().getId()));
+                                "author_id", book.getAuthor().getId(),
+                                "genre_id", book.getGenre().getId()));
     }
 
     @Override

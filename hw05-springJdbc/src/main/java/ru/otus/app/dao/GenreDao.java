@@ -10,4 +10,6 @@ public interface GenreDao {
 
     Optional<Genre> getGenreByName(String genreName);
 
+    Optional<Genre> getGenreById(long id);
+
 }

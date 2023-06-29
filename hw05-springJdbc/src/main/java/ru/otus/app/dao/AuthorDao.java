@@ -10,5 +10,7 @@ public interface AuthorDao {
 
     Optional<Author> getAuthorByName(String name);
 
+    Optional<Author> getAuthorById(long id);
+
 
 }
