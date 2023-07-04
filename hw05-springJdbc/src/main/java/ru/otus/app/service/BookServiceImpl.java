@@ -9,6 +9,7 @@ import ru.otus.app.domain.Author;
 import ru.otus.app.domain.Book;
 import ru.otus.app.domain.Genre;
 import ru.otus.app.dto.BookDto;
+import ru.otus.app.exceptions.NotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,20 +27,9 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto createBook(BookDto bookDto) {
 
-        List<Author> authors = authorDao.getByName(bookDto.getAuthorName());
-        if (authors.isEmpty()) {
-            throw new IllegalArgumentException("Author does not exist");
-        }
-        Author author = authors.get(0);
+        Book book = getBookWithExistingFieldsFromBookDto(bookDto);
 
-        List<Genre> genres = genreDao.getByName(bookDto.getGenreName());
-        if (genres.isEmpty()) {
-            throw new IllegalArgumentException("Genre does not exist");
-        }
-        Genre genre = genres.get(0);
-
-        return bookDao.create(new Book(bookDto.getBookName(), author, genre))
-                .toDto();
+        return bookDao.create(book).toDto();
     }
 
     @Override
@@ -53,37 +43,44 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto getBookById(Long id) {
         return bookDao.getById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Book does not exist"))
+                .orElseThrow(NotFoundException.notFoundException("Book {0} does not exist", id))
                 .toDto();
     }
 
     @Override
     public void update(BookDto bookDto) {
 
-        bookDao.getById(bookDto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Book does not exist"));
+        Long bookDtoId = bookDto.getId();
 
-        List<Author> authors = authorDao.getByName(bookDto.getAuthorName());
-        if (authors.isEmpty()) {
-            throw new IllegalArgumentException("Author does not exist");
-        }
-        Author author = authors.get(0);
+        bookDao.getById(bookDtoId)
+                .orElseThrow(NotFoundException.notFoundException("Book {0} does not exist", bookDtoId));
 
-        List<Genre> genres = genreDao.getByName(bookDto.getGenreName());
-        if (genres.isEmpty()) {
-            throw new IllegalArgumentException("Genre does not exist");
-        }
-        Genre genre = genres.get(0);
-
-        Book book = bookDto.toBook();
-        book.setAuthor(author);
-        book.setGenre(genre);
-
+        Book book = getBookWithExistingFieldsFromBookDto(bookDto);
+        book.setId(bookDtoId);
         bookDao.update(book);
     }
 
     @Override
     public void deleteBookById(Long id) {
         bookDao.deleteById(id);
+    }
+
+    private Book getBookWithExistingFieldsFromBookDto (BookDto bookDto) {
+
+        String authorName = bookDto.getAuthorName();
+        List<Author> authors = authorDao.getByName(authorName);
+        if (authors.isEmpty()) {
+            throw new NotFoundException("Author {0} does not exist", authorName);
+        }
+        Author author = authors.get(0);
+
+        String genreName = bookDto.getGenreName();
+        List<Genre> genres = genreDao.getByName(genreName);
+        if (genres.isEmpty()) {
+            throw new NotFoundException("Genre {0} does not exist", genreName);
+        }
+        Genre genre = genres.get(0);
+
+        return new Book(bookDto.getBookName(), author, genre);
     }
 }

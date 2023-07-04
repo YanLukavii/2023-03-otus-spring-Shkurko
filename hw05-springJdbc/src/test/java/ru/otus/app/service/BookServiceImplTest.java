@@ -9,6 +9,7 @@ import ru.otus.app.dao.AuthorDao;
 import ru.otus.app.dao.BookDao;
 import ru.otus.app.dao.GenreDao;
 import ru.otus.app.dto.BookDto;
+import ru.otus.app.exceptions.NotFoundException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -58,7 +59,7 @@ public class BookServiceImplTest {
                 2L, EXISTING_BOOK_NAME, "Not Exist", EXISTING_GENRE_NAME);
 
         assertThatThrownBy(() -> bookService.createBook(bookDto))
-                .isInstanceOf(RuntimeException.class);
+                .isInstanceOf(NotFoundException.class);
     }
 
     @DisplayName("кидать исключение при добавлении книги, если Genre не существует")
@@ -70,7 +71,7 @@ public class BookServiceImplTest {
 
 
         assertThatThrownBy(() -> bookService.createBook(bookDto))
-                .isInstanceOf(RuntimeException.class);
+                .isInstanceOf(NotFoundException.class);
     }
 
     @DisplayName("возвращать ожидаемую книгу по её id")
