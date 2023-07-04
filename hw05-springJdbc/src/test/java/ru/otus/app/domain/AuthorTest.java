@@ -10,9 +10,9 @@ class AuthorTest {
     @DisplayName("корректно создаётся конструктором")
     @Test
     void shouldHaveCorrectConstructor() {
-        Author author = new Author(1, "Author 1");
+        Author author = new Author(1L, "Author 1");
         assertEquals("Author 1", author.getName());
-        assertEquals(1, author.getId());
+        assertEquals(1L, author.getId());
 
         Author author2 = new Author("Author 2");
         assertEquals("Author 2", author2.getName());

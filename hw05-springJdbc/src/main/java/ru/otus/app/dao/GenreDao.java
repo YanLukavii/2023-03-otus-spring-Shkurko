@@ -2,14 +2,15 @@ package ru.otus.app.dao;
 
 import ru.otus.app.domain.Genre;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface GenreDao {
 
-    void insertNewGenre(Genre genre);
+    Genre create(Genre genre);
 
-    Optional<Genre> getGenreByName(String genreName);
+    List<Genre> getByName(String genreName);
 
-    Optional<Genre> getGenreById(long id);
+    Optional<Genre> getById(long id);
 
 }

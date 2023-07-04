@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import ru.otus.app.domain.Genre;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import(GenreDaoImpl.class)
 public class GenreDaoImplTest {
 
-    private static final long EXISTING_GENRE_ID = 1;
+    private static final Long EXISTING_GENRE_ID = 1L;
     private static final String EXISTING_GENRE_NAME = "Genre 1";
     @Autowired
     private GenreDaoImpl genreDao;
@@ -25,8 +26,8 @@ public class GenreDaoImplTest {
     @Test
     void shouldReturnExpectedGenreByName() {
 
-        Optional<Genre> expectedGenre = Optional.of(new Genre(EXISTING_GENRE_ID, EXISTING_GENRE_NAME));
-        Optional<Genre> actualGenre = genreDao.getGenreByName(expectedGenre.orElseThrow().getName());
+        List<Genre> expectedGenre = List.of(new Genre(EXISTING_GENRE_ID, EXISTING_GENRE_NAME));
+        List<Genre> actualGenre = genreDao.getByName(EXISTING_GENRE_NAME);
         assertThat(actualGenre).usingRecursiveComparison().isEqualTo(expectedGenre);
     }
 
@@ -34,20 +35,20 @@ public class GenreDaoImplTest {
     @Test
     void shouldInsertGenre() {
 
-        Optional<Genre> expectedGenre = Optional.of(new Genre(2,
+        List<Genre> expectedGenre = List.of(new Genre(2L,
                 "Genre 2"));
-        genreDao.insertNewGenre(expectedGenre.get());
+        genreDao.create(expectedGenre.get(0));
 
-        Optional<Genre> actualGenre = genreDao.getGenreByName("Genre 2");
+        List<Genre> actualGenre = genreDao.getByName("Genre 2");
         assertThat(actualGenre).usingRecursiveComparison().isEqualTo(expectedGenre);
     }
 
-    @DisplayName("возвращать ожидаемый жанр по его ID")
+    @DisplayName("возвращать ожидаемый жанр по его Id")
     @Test
     void shouldReturnExpectedGenreById() {
 
         Optional<Genre> expectedGenre = Optional.of(new Genre(EXISTING_GENRE_ID, EXISTING_GENRE_NAME));
-        Optional<Genre> actualGenre = genreDao.getGenreById(expectedGenre.orElseThrow().getId());
+        Optional<Genre> actualGenre = genreDao.getById(expectedGenre.orElseThrow().getId());
         assertThat(actualGenre).usingRecursiveComparison().isEqualTo(expectedGenre);
     }
 }

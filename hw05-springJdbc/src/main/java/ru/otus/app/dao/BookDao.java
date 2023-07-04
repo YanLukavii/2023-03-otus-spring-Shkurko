@@ -3,19 +3,20 @@ package ru.otus.app.dao;
 import ru.otus.app.domain.Book;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookDao {
 
     int count();
 
-    void insertNewBook(Book book);
+    Book create(Book book);
 
-    Book getBookById(long id);
+    Optional<Book> getById(long id);
 
-    List<Book> getAllBooks();
+    List<Book> getAll();
 
-    void deleteBookById(long id);
+    void deleteById(long id);
 
-    void updateBookNameById(long id, String bookName);
+    void update(Book book);
 
 }

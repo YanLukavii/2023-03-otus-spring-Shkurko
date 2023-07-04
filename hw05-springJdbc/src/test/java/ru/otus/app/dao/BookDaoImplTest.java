@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.*;
 class BookDaoImplTest {
 
     private static final int EXPECTED_BOOK_COUNT = 1;
-    private static final int EXISTING_BOOK_ID = 1;
+    private static final Long EXISTING_BOOK_ID = 1L;
     private static final String EXISTING_BOOK_NAME = "Book 1";
     private static final String EXISTING_AUTHOR_NAME = "Author 1";
     private static final String EXISTING_GENRE_NAME = "Genre 1";
@@ -47,12 +47,12 @@ class BookDaoImplTest {
     @Test
     void shouldInsertBook() {
 
-        Book expectedBook = new Book(2, EXISTING_BOOK_NAME,
-                new Author(1, EXISTING_AUTHOR_NAME),
-                new Genre(1, EXISTING_GENRE_NAME));
-        bookDao.insertNewBook(expectedBook);
+        Book expectedBook = new Book(2L, EXISTING_BOOK_NAME,
+                new Author(1L, EXISTING_AUTHOR_NAME),
+                new Genre(1L, EXISTING_GENRE_NAME));
+        bookDao.create(expectedBook);
 
-        Book actualBook = bookDao.getBookById(2);
+        Book actualBook = bookDao.getById(2).get();
         assertThat(actualBook).usingRecursiveComparison().isEqualTo(expectedBook);
     }
 
@@ -60,21 +60,21 @@ class BookDaoImplTest {
     @Test
     void shouldReturnExpectedBookById() {
         Book expectedBook = new Book(EXISTING_BOOK_ID, EXISTING_BOOK_NAME,
-                new Author(1, EXISTING_AUTHOR_NAME),
-                new Genre(1, EXISTING_GENRE_NAME));
-        Book actualBook = bookDao.getBookById(expectedBook.getId());
+                new Author(1L, EXISTING_AUTHOR_NAME),
+                new Genre(1L, EXISTING_GENRE_NAME));
+        Book actualBook = bookDao.getById(expectedBook.getId()).get();
         assertThat(actualBook).usingRecursiveComparison().isEqualTo(expectedBook);
     }
 
     @DisplayName("удалять заданную книгу по её id")
     @Test
     void shouldCorrectDeleteBookById() {
-        assertThatCode(() -> bookDao.getBookById(EXISTING_BOOK_ID))
+        assertThatCode(() -> bookDao.getById(EXISTING_BOOK_ID))
                 .doesNotThrowAnyException();
 
-        bookDao.deleteBookById(EXISTING_BOOK_ID);
+        bookDao.deleteById(EXISTING_BOOK_ID);
 
-        assertThatThrownBy(() -> bookDao.getBookById(EXISTING_BOOK_ID))
+        assertThatThrownBy(() -> bookDao.getById(EXISTING_BOOK_ID))
                 .isInstanceOf(EmptyResultDataAccessException.class);
     }
 
@@ -82,10 +82,10 @@ class BookDaoImplTest {
     @Test
     void shouldReturnExpectedBookList() {
         Book expectedBook = new Book(EXISTING_BOOK_ID, EXISTING_BOOK_NAME
-                , new Author(1, EXISTING_AUTHOR_NAME)
-                , new Genre(1, EXISTING_GENRE_NAME));
+                , new Author(1L, EXISTING_AUTHOR_NAME)
+                , new Genre(1L, EXISTING_GENRE_NAME));
 
-        List<Book> actualBookList = bookDao.getAllBooks();
+        List<Book> actualBookList = bookDao.getAll();
         assertThat(actualBookList)
                 .containsExactlyInAnyOrder(expectedBook);
     }

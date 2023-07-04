@@ -3,11 +3,11 @@ package ru.otus.app.shell;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import ru.otus.app.domain.Author;
-import ru.otus.app.domain.Book;
-import ru.otus.app.domain.Genre;
+import org.springframework.shell.standard.ShellOption;
+import ru.otus.app.dto.BookDto;
+import ru.otus.app.service.BookConverter;
 import ru.otus.app.service.BookService;
-import ru.otus.app.service.IOService;
+import ru.otus.app.service.OutputService;
 
 import java.util.List;
 
@@ -16,77 +16,66 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ApplicationCommands {
 
-    private final IOService ioService;
+    private final BookConverter bookConverter;
 
     private final BookService bookService;
 
-    @ShellMethod(value = "Get All Books", key = {"all","a"})
+    private final OutputService outPutService;
+
+    @ShellMethod(value = "Get All Books", key = {"all", "a"})
     public void getAllBook() {
-
-        List<Book> bookList = bookService.getAllBook();
-
-        for (Book book : bookList
-        ) {
-            ioService.print("ID:" + book.getId()
-                    + " Название:" + book.getName()
-                    + " Автор:" + book.getAuthor().getName()
-                    + " Жанр:" + book.getGenre().getName());
-        }
+        List<BookDto> bookDtoList = bookService.getAllBook();
+        outPutService.print(bookConverter.toStringBookDtoList(bookDtoList));
     }
 
-    @ShellMethod(value = "new book", key = {"new","n"})
-    public void createNewBook() {
-        ioService.print("Введите название книги");
-        String bookName = ioService.read();
+    @ShellMethod(value = "Create new book", key = {"new", "n"})
+    public void createNewBook(
+            @ShellOption(help = "Book name") String bookName,
+            @ShellOption(help = "Author name") String authorName,
+            @ShellOption(help = "Genre name") String genreName
+    ) {
+        BookDto bookDto = new BookDto();
+        bookDto.setBookName(bookName);
+        bookDto.setAuthorName(authorName);
+        bookDto.setGenreName(genreName);
 
-        ioService.print("Введите автора книги");
-        String authorName = ioService.read();
+        BookDto newBook = bookService.createBook(bookDto);
 
-        ioService.print("Введите жанр книги");
-        String ganreName = ioService.read();
-
-        bookService.createBook(new Book(bookName, new Author(authorName), new Genre(ganreName)));
-
-        ioService.print("Книга создана");
-    }
-
-    @ShellMethod(value = "get book by id", key = {"book by id","b","g"})
-    public void getBookById() {
-
-        ioService.print("Введите id книги");
-        String idAsString = ioService.read();
-        long id = Long.parseLong(idAsString);
-        Book book = bookService.getBookById(id);
-
-        ioService.print("ID:" + book.getId()
-                + " Название:" + book.getName()
-                + " Автор:" + book.getAuthor().getName()
-                + " Жанр:" + book.getGenre().getName());
-    }
-
-    @ShellMethod(value = "update name book by ID", key = {"update","u"})
-    public void updateBookNameById() {
-
-        ioService.print("Введите id книги");
-        String idAsString = ioService.read();
-        long id = Long.parseLong(idAsString);
-
-        ioService.print("Введите новое название книги");
-        String bookName = ioService.read();
-
-        bookService.updateBookById(id, bookName);
-        ioService.print("Книга изменена!");
+        outPutService.print("Book successfully created");
+        outPutService.print(bookConverter.toStringBookDto(newBook));
 
     }
 
-    @ShellMethod(value = "delete book by ID", key = {"delete","d"})
-    public void deleteBookById() {
+    @ShellMethod(value = "Get book by Id", key = {"book by id", "b", "g"})
+    public void getBookById(
+            @ShellOption(help = "Book Id") Long bookId
+    ) {
+        BookDto bookDto = bookService.getBookById(bookId);
+        outPutService.print(bookConverter.toStringBookDto(bookDto));
+    }
 
-        ioService.print("Введите id книги");
-        String idAsString = ioService.read();
-        long id = Long.parseLong(idAsString);
+    @ShellMethod(value = "Update book", key = {"update", "u"})
+    public void updateBook(
+            @ShellOption(help = "Book Id") Long bookId,
+            @ShellOption(help = "Book name") String bookName,
+            @ShellOption(help = "Author name") String authorName,
+            @ShellOption(help = "Genre name") String genreName
+    ) {
+        BookDto bookDto = new BookDto();
+        bookDto.setId(bookId);
+        bookDto.setBookName(bookName);
+        bookDto.setAuthorName(authorName);
+        bookDto.setGenreName(genreName);
 
-        bookService.deleteBookById(id);
-        ioService.print("Книга удалена!");
+        bookService.update(bookDto);
+        outPutService.print("Book successfully updated!");
+    }
+
+    @ShellMethod(value = "Delete book by Id", key = {"delete", "d"})
+    public void deleteBookById(
+            @ShellOption(help = "Book Id") Long bookId
+    ) {
+        bookService.deleteBookById(bookId);
+        outPutService.print("Book successfully deleted!");
     }
 }

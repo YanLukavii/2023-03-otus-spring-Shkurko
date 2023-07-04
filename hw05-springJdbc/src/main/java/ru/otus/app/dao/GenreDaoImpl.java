@@ -4,12 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.otus.app.domain.Genre;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -20,26 +25,33 @@ public class GenreDaoImpl implements GenreDao {
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
     @Override
-    public void insertNewGenre(Genre genre) {
-        namedParameterJdbcOperations.update("insert into Genre (name) values (:name)",
-                Map.of("name", genre.getName()));
+    public Genre create(Genre genre) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        String sql = "insert into Genre (name) values (?)";
+        namedParameterJdbcOperations.getJdbcOperations().update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, genre.getName());
+            return ps;
+        }, keyHolder);
+
+        Long generatedId = keyHolder.getKey().longValue();
+        genre.setId(generatedId);
+
+        return genre;
     }
 
     @Override
-    public Optional<Genre> getGenreByName(String genreName) {
+    public List<Genre> getByName(String genreName) {
         Map<String, Object> params = Collections.singletonMap("name", genreName);
 
-        try {
-            return Optional.ofNullable(namedParameterJdbcOperations.queryForObject(
-                    "select id, name from Genre where name = :name", params, new GenreMapper()
-            ));
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
+        return namedParameterJdbcOperations.query(
+                "select id, name from Genre where name = :name", params, new GenreMapper()
+        );
+
     }
 
     @Override
-    public Optional<Genre> getGenreById(long id) {
+    public Optional<Genre> getById(long id) {
 
         try {
             Map<String, Object> params = Collections.singletonMap("id", id);

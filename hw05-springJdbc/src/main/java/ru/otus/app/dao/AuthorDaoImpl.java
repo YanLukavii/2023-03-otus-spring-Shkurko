@@ -4,12 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.otus.app.domain.Author;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,26 +26,33 @@ public class AuthorDaoImpl implements AuthorDao {
 
 
     @Override
-    public void insertNewAuthor(Author author) {
-        namedParameterJdbcOperations.update("insert into Author (name) values (:name)",
-                Map.of("name", author.getName()));
+    public Author create(Author author) {
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        String sql = "insert into Author (name) values (?)";
+        namedParameterJdbcOperations.getJdbcOperations().update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, author.getName());
+            return ps;
+        }, keyHolder);
+
+        Long generatedId = keyHolder.getKey().longValue();
+        author.setId(generatedId);
+
+        return author;
     }
 
     @Override
-    public Optional<Author> getAuthorByName(String name) {
-        try {
-            Map<String, Object> params = Collections.singletonMap("name", name);
-            return Optional.ofNullable(namedParameterJdbcOperations.queryForObject(
-                    "select id, name from Author where name = :name", params, new AuthorMapper()
-            ));
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
+    public List<Author> getByName(String name) {
 
+        Map<String, Object> params = Collections.singletonMap("name", name);
+        return namedParameterJdbcOperations.query(
+                "select id, name from Author where name = :name", params, new AuthorMapper()
+        );
     }
 
     @Override
-    public Optional<Author> getAuthorById(long id) {
+    public Optional<Author> getById(long id) {
         try {
             Map<String, Object> params = Collections.singletonMap("id", id);
             return namedParameterJdbcOperations.queryForObject(

@@ -2,7 +2,9 @@ package ru.otus.app.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.otus.app.dto.BookDto;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Класс Book")
@@ -15,9 +17,9 @@ public class BookTest {
     @DisplayName("корректно создаётся конструктором")
     @Test
     void shouldHaveCorrectConstructor() {
-        Book book = new Book(1, "Book 1", author, genre);
+        Book book = new Book(1L, "Book 1", author, genre);
         assertEquals("Book 1", book.getName());
-        assertEquals(1, book.getId());
+        assertEquals(1L, book.getId());
         assertEquals(author, book.getAuthor());
         assertEquals(genre, book.getGenre());
 
@@ -27,4 +29,19 @@ public class BookTest {
         assertEquals(genre, book2.getGenre());
 
     }
+
+    @DisplayName("корректно конвертируется в BookDto")
+    @Test
+    void shouldHaveCorrectCovertToDto() {
+        Book book = new Book(1L, "Book 1", author, genre);
+
+        BookDto expectedBookDto = new BookDto(
+                book.getId(), book.getName(), author.getName(), genre.getName());
+
+        BookDto actualBookDto = book.toDto();
+
+        assertThat(actualBookDto).usingRecursiveComparison().isEqualTo(expectedBookDto);
+
+    }
+
 }

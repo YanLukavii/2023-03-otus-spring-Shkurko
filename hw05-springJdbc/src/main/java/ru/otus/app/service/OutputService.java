@@ -1,7 +1,6 @@
 package ru.otus.app.service;
 
-public interface IOService {
+public interface OutputService {
     void print(String line);
 
-    String read();
 }

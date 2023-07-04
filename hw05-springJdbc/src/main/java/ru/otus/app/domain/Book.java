@@ -2,23 +2,35 @@ package ru.otus.app.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import ru.otus.app.dto.BookDto;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Book {
 
-    private long id;
+    private Long id;
 
-    private final String name;
+    private String name;
 
-    private final Author author;
+    private Author author;
 
-    private final Genre genre;
+    private Genre genre;
 
     public Book(String name, Author author, Genre genre) {
         this.name = name;
         this.author = author;
         this.genre = genre;
+    }
+
+    public BookDto toDto() {
+        BookDto bookDto = new BookDto();
+        bookDto.setId(this.id);
+        bookDto.setBookName(this.name);
+        bookDto.setAuthorName(this.author.getName());
+        bookDto.setGenreName(this.genre.getName());
+        return bookDto;
     }
 
 }

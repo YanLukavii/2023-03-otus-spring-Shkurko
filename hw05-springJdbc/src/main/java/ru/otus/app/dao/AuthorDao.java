@@ -2,15 +2,16 @@ package ru.otus.app.dao;
 
 import ru.otus.app.domain.Author;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface AuthorDao {
 
-    void insertNewAuthor(Author author);
+    Author create(Author author);
 
-    Optional<Author> getAuthorByName(String name);
+    List<Author> getByName(String name);
 
-    Optional<Author> getAuthorById(long id);
+    Optional<Author> getById(long id);
 
 
 }

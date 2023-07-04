@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import ru.otus.app.domain.Author;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,29 +25,28 @@ public class AuthorDaoImplTest {
     @Test
     void shouldReturnExpectedAuthorByName() {
 
-        Optional<Author> expectedAuthor = Optional.of(new Author(EXISTING_AUTHOR_ID, EXISTING_AUTHOR_NAME));
-        Optional<Author> actualAuthor = authorDao.getAuthorByName(expectedAuthor.orElseThrow().getName());
-        assertThat(actualAuthor).usingRecursiveComparison().isEqualTo(expectedAuthor);
+        List<Author> expectedAuthors = List.of(new Author(EXISTING_AUTHOR_ID, EXISTING_AUTHOR_NAME));
+        List<Author> actualAuthors = authorDao.getByName(EXISTING_AUTHOR_NAME);
+        assertThat(actualAuthors).usingRecursiveComparison().isEqualTo(expectedAuthors);
     }
 
     @DisplayName("добавлять автора в БД")
     @Test
     void shouldInsertAuthor() {
 
-        Optional<Author> expectedAuthor = Optional.of(new Author(2,
-                "Author 2"));
-        authorDao.insertNewAuthor(expectedAuthor.get());
+        List<Author> expectedAuthor = List.of(new Author(2L, "Author 2"));
+        authorDao.create(expectedAuthor.get(0));
 
-        Optional<Author> actualAuthor = authorDao.getAuthorByName("Author 2");
+        List<Author> actualAuthor = authorDao.getByName("Author 2");
         assertThat(actualAuthor).usingRecursiveComparison().isEqualTo(expectedAuthor);
     }
 
-    @DisplayName("возвращать ожидаемого автора по его ID")
+    @DisplayName("возвращать ожидаемого автора по его Id")
     @Test
     void shouldReturnExpectedAuthorById() {
 
         Optional<Author> expectedAuthor = Optional.of(new Author(EXISTING_AUTHOR_ID, EXISTING_AUTHOR_NAME));
-        Optional<Author> actualAuthor = authorDao.getAuthorById(expectedAuthor.orElseThrow().getId());
+        Optional<Author> actualAuthor = authorDao.getById(expectedAuthor.orElseThrow().getId());
         assertThat(actualAuthor).usingRecursiveComparison().isEqualTo(expectedAuthor);
     }
 }

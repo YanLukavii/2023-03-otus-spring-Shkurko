@@ -1,5 +1,6 @@
 INSERT INTO Author (name) VALUES ('Александр Пушкин');
 INSERT INTO Author (name) VALUES ('Федор Достоевский');
+INSERT INTO Author (name) VALUES ('Fork');
 
 INSERT INTO Genre (name) VALUES ('Роман');
 INSERT INTO Genre (name) VALUES ('Поэма');

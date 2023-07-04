@@ -10,7 +10,7 @@ class GenreTest {
     @DisplayName("корректно создаётся конструктором")
     @Test
     void shouldHaveCorrectConstructor() {
-        Genre genre = new Genre(1, "Genre 1");
+        Genre genre = new Genre(1L, "Genre 1");
         assertEquals("Genre 1", genre.getName());
         assertEquals(1, genre.getId());
 
