@@ -138,6 +138,7 @@
         <module>hw03-springBootBlackMagic</module>
         <module>hw04-springShell</module>
         <module>hw05-springJdbc</module>
+        <module>hw07-springData</module>
     </modules>
 
 
