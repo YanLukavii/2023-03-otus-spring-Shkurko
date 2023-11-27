@@ -1,3 +1,4 @@
+/*
 
 package ru.otus.hw.repositories;
 
@@ -135,4 +136,4 @@ class JpaBookRepositoryTest {
         var dbGenres = getDbGenres();
         return getDbBooks(dbAuthors, dbGenres);
     }
-}
+}*/

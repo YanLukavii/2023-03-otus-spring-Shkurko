@@ -23,8 +23,8 @@ import org.hibernate.annotations.FetchMode;
 @NoArgsConstructor
 @Entity
 @Table(name = "books")
-@NamedEntityGraph(name = "entity-gr",
-        attributeNodes = {@NamedAttributeNode("author"), @NamedAttributeNode("genre")})
+/*@NamedEntityGraph(name = "entity-gr",
+        attributeNodes = {@NamedAttributeNode("author"), @NamedAttributeNode("genre")})*/
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

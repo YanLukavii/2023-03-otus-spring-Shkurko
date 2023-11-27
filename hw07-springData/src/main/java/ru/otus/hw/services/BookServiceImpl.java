@@ -47,7 +47,11 @@ public class BookServiceImpl implements BookService {
     @Transactional
     @Override
     public Book update(long id, String title, long authorId, long genreId) {
-        return updateBook(id, title, authorId, genreId);
+
+        bookRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Book with id %d not found".formatted(id)));
+
+       return save(id, title, authorId, genreId);
     }
 
     @Transactional
@@ -65,7 +69,7 @@ public class BookServiceImpl implements BookService {
         return bookRepository.save(book);
     }
 
-    private Book updateBook(long id, String title, long authorId, long genreId) {
+    /*private void updateBook(long id, String title, long authorId, long genreId) {
 
         bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book with id %d not found".formatted(id)));
@@ -75,6 +79,6 @@ public class BookServiceImpl implements BookService {
                 .orElseThrow(() -> new EntityNotFoundException("Genre with id %d not found".formatted(genreId)));
         var book = new Book(id, title, author, genre);
 
-        return bookRepository.update(book);
-    }
+        bookRepository.update(book);
+    }*/
 }

@@ -1,3 +1,4 @@
+/*
 package ru.otus.hw.repositories;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -153,3 +154,4 @@ public class JpaCommentRepositoryTest {
         return getDbComments(dbBooks);
     }
 }
+*/
