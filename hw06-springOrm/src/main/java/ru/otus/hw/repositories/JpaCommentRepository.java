@@ -45,7 +45,6 @@ public class JpaCommentRepository implements CommentRepository {
             return comment;
         }
         return em.merge(comment);
-
     }
 
     @Override
@@ -54,10 +53,5 @@ public class JpaCommentRepository implements CommentRepository {
                 .orElseThrow(() -> new EntityNotFoundException("Comment with id %d not found".formatted(id)));
 
         em.remove(comment);
-    }
-
-    @Override
-    public Comment update(Comment comment) {
-        return em.merge(comment);
     }
 }

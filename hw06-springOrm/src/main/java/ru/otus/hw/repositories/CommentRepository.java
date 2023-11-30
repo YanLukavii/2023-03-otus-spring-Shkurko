@@ -16,5 +16,4 @@ public interface CommentRepository {
 
     void deleteById(long id);
 
-    Comment update(Comment comment);
 }

@@ -9,6 +9,7 @@ import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Book;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType.FETCH;
@@ -24,18 +25,17 @@ public class JpaBookRepository implements BookRepository {
         this.em = em;
     }
 
-
     @Override
     public Optional<Book> findById(long id) {
-        return Optional.ofNullable(em.find(Book.class, id));
+        return Optional.ofNullable(em.find(Book.class, id,
+                Map.of(FETCH.getKey(), em.getEntityGraph("entity-gr"))));
     }
-
 
     @Override
     public List<Book> findAll() {
         EntityGraph<?> entityGraph = em.getEntityGraph("entity-gr");
         TypedQuery<Book> query = em.createQuery("select b from Book b", Book.class);
-        query.setHint(FETCH.getKey(),entityGraph);
+        query.setHint(FETCH.getKey(), entityGraph);
         return query.getResultList();
     }
 
@@ -56,10 +56,5 @@ public class JpaBookRepository implements BookRepository {
                 .orElseThrow(() -> new EntityNotFoundException("Book with id %d not found".formatted(id)));
 
         em.remove(book);
-    }
-
-    @Override
-    public Book update(Book book) {
-        return em.merge(book);
     }
 }
