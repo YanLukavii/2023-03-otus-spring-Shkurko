@@ -20,7 +20,7 @@ import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Репозиторий на основе Jdbc для работы с книгами ")
+@DisplayName("Репозиторий на основе Jpa для работы с книгами ")
 @DataJpaTest
 @Import({JpaBookRepository.class})
 @TestPropertySource(locations = "classpath:test-application.yml")
@@ -54,6 +54,7 @@ class JpaBookRepositoryTest {
         var actualBook = bookRepository.findById(expectedBook.getId());
         assertThat(actualBook).isPresent()
                 .get()
+                .usingRecursiveComparison()
                 .isEqualTo(expectedBook);
 
     }
@@ -64,7 +65,10 @@ class JpaBookRepositoryTest {
         var actualBooks = bookRepository.findAll();
         var expectedBooks = dbBooks;
 
-        assertThat(actualBooks).containsExactlyElementsOf(expectedBooks);
+        assertThat(actualBooks)
+                .usingRecursiveComparison()
+                .isEqualTo(expectedBooks);
+
         actualBooks.forEach(System.out::println);
     }
 

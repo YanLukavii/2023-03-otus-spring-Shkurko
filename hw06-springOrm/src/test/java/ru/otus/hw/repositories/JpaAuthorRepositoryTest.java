@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Репозиторий на основе Jdbc для работы с авторами ")
+@DisplayName("Репозиторий на основе Jpa для работы с авторами ")
 @DataJpaTest
 @Import({JpaAuthorRepository.class})
 @TestPropertySource(locations = "classpath:test-application.yml")
@@ -45,6 +45,7 @@ public class JpaAuthorRepositoryTest {
         var actualAuthor = authorRepository.findById(expectedAuthor.getId());
         assertThat(actualAuthor).isPresent()
                 .get()
+                .usingRecursiveComparison()
                 .isEqualTo(expectedAuthor);
 
     }
@@ -55,7 +56,10 @@ public class JpaAuthorRepositoryTest {
         var actualAuthors = authorRepository.findAll();
         var expectedAuthors = dbAuthors;
 
-        assertThat(actualAuthors).containsExactlyElementsOf(expectedAuthors);
+        assertThat(actualAuthors)
+                .usingRecursiveComparison()
+                .isEqualTo(expectedAuthors);
+
         actualAuthors.forEach(System.out::println);
     }
 

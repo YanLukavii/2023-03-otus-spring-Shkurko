@@ -17,7 +17,6 @@ import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Objects;
 
 
 @Getter
@@ -43,26 +42,4 @@ public class Book {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "genre_id")
     private Genre genre;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Book book = (Book) o;
-
-        if (id != book.id) return false;
-        if (!Objects.equals(title, book.title)) return false;
-        if (!Objects.equals(author, book.author)) return false;
-        return Objects.equals(genre, book.genre);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (author != null ? author.hashCode() : 0);
-        result = 31 * result + (genre != null ? genre.hashCode() : 0);
-        return result;
-    }
 }

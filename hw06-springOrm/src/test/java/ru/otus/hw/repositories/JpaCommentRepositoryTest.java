@@ -21,7 +21,7 @@ import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Репозиторий на основе Jdbc для работы с комментариями ")
+@DisplayName("Репозиторий на основе Jpa для работы с комментариями ")
 @DataJpaTest
 @Import({JpaCommentRepository.class})
 @TestPropertySource(locations = "classpath:test-application.yml")
@@ -54,22 +54,26 @@ public class JpaCommentRepositoryTest {
     void shouldReturnCorrectCommentById(Comment expectedComment) {
 
         var actualComment = commentRepository.findById(expectedComment.getId());
-        assertThat(actualComment).isPresent()
-                .get()
-                .isEqualTo(expectedComment);
 
+        assertThat(actualComment)
+                .get()
+                .usingRecursiveComparison()
+                .ignoringFields("book")
+                .isEqualTo(expectedComment);
     }
 
     @DisplayName("должен загружать список всех комментариев по книге")
     @Test
     void shouldReturnCorrectCommentsListByBook() {
-        var actualBooks = commentRepository.findByBook(dbBooks.get(0));
-        var expectedBooks = dbComments.stream()
+        var actualComments = commentRepository.findByBook(dbBooks.get(0));
+        var expectedComments = dbComments.stream()
                 .filter(comment -> comment.getBook().getId() == 1L)
-                .collect(Collectors.toList());
+                .toList();
 
-        assertThat(actualBooks).containsExactlyElementsOf(expectedBooks);
-        actualBooks.forEach(System.out::println);
+        assertThat(actualComments)
+                .usingRecursiveComparison()
+                .ignoringFields("book")
+                .isEqualTo(expectedComments);
     }
 
     @DisplayName("должен сохранять новый комментарий")
@@ -81,7 +85,9 @@ public class JpaCommentRepositoryTest {
 
         assertThat(returnedComment).isNotNull()
                 .matches(comment -> comment.getId() > 0)
-                .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedComment);
+                .usingRecursiveComparison()
+                .ignoringExpectedNullFields()
+                .isEqualTo(expectedComment);
 
         assertThat(commentRepository.findById(returnedComment.getId()))
                 .isPresent()

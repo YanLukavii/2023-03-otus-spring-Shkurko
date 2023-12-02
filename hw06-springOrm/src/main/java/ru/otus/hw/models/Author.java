@@ -24,22 +24,4 @@ public class Author {
 
     @Column(name = "full_name")
     private String fullName;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Author author = (Author) o;
-
-        if (id != author.id) return false;
-        return fullName.equals(author.fullName);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + fullName.hashCode();
-        return result;
-    }
 }

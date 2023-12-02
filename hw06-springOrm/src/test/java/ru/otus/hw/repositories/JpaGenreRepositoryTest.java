@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Репозиторий на основе Jdbc для работы с жанрами ")
+@DisplayName("Репозиторий на основе Jpa для работы с жанрами ")
 @DataJpaTest
 @Import({JpaGenreRepository.class})
 @TestPropertySource(locations = "classpath:test-application.yml")
@@ -44,8 +44,8 @@ public class JpaGenreRepositoryTest {
         var actualGenre = genreRepository.findById(expectedGenre.getId());
         assertThat(actualGenre).isPresent()
                 .get()
+                .usingRecursiveComparison()
                 .isEqualTo(expectedGenre);
-
     }
 
     @DisplayName("должен загружать список всех жанров")
@@ -54,7 +54,10 @@ public class JpaGenreRepositoryTest {
         var actualGenres = genreRepository.findAll();
         var expectedGenres = dbGenres;
 
-        assertThat(actualGenres).containsExactlyElementsOf(expectedGenres);
+        assertThat(actualGenres)
+                .usingRecursiveComparison()
+                .isEqualTo(expectedGenres);
+
         actualGenres.forEach(System.out::println);
     }
 
