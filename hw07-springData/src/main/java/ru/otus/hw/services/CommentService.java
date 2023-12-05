@@ -13,7 +13,7 @@ public interface CommentService {
 
     Comment insert(String text, long bookId);
 
-    Comment update(long id, String text, long bookId);
+    Comment update(long id, String text);
 
     void deleteById(long id);
 
