@@ -16,7 +16,7 @@ spring:
         web-allow-others: true
 
   jpa:
-    # generate-ddl: true
+    generate-ddl: false
     hibernate:
       ddl-auto: none
 
