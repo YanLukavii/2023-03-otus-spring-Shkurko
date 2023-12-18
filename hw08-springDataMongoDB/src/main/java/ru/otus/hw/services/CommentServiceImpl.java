@@ -21,38 +21,38 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional(readOnly = true)
     @Override
-    public Optional<Comment> findById(long id) {
+    public Optional<Comment> findById(String id) {
         return commentRepository.findById(id);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<Comment> findByBookId(long bookId) {
+    public List<Comment> findByBookId(String bookId) {
 
         var book = bookRepository.findById(bookId).
-                orElseThrow(() -> new EntityNotFoundException("Book with id %d not found".formatted(bookId)));
+                orElseThrow(() -> new EntityNotFoundException("Book with id %s not found".formatted(bookId)));
 
         return commentRepository.findByBook(book);
     }
 
     @Transactional
     @Override
-    public Comment insert(String text, long bookId) {
+    public Comment insert(String text, String bookId) {
 
         var book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new EntityNotFoundException("Book with id %d not found".formatted(bookId)));
+                .orElseThrow(() -> new EntityNotFoundException("Book with id %s not found".formatted(bookId)));
 
-        var comment = new Comment(0, text, book);
+        var comment = new Comment(text, book);
 
         return commentRepository.save(comment);
     }
 
     @Transactional
     @Override
-    public Comment update(long id, String text) {
+    public Comment update(String id, String text) {
 
         var comment = commentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Comment with id %d not found".formatted(id)));
+                .orElseThrow(() -> new EntityNotFoundException("Comment with id %s not found".formatted(id)));
 
         comment.setText(text);
 
@@ -61,7 +61,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public void deleteById(long id) {
+    public void deleteById(String id) {
         commentRepository.deleteById(id);
     }
 

@@ -12,13 +12,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
-
 @Document(collection = "authors")
 public class Author {
 
     @Id
-    private long id;
+    private String id;
 
-    @Column(name = "full_name")
+
     private String fullName;
+
+    public Author(String fullName) {
+        this.fullName = fullName;
+    }
+
 }

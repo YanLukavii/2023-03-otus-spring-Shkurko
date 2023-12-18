@@ -22,7 +22,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Transactional(readOnly = true)
     @Override
-    public Optional<Author> findById(long id) {
+    public Optional<Author> findById(String id) {
         return authorRepository.findById(id);
     }
 }

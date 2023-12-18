@@ -1,27 +1,31 @@
+
 spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: libraryMongo
+
   shell:
     interactive:
       enabled: true
-  datasource:
-    url: jdbc:h2:mem:maindb
-  sql:
-    init:
-      mode: always
-      data-locations: data.sql
-      schema-locations: schema.sql
-  h2:
-    console:
-      path: /h2-console
-      settings:
-        web-allow-others: true
+    noninteractive:
+      enabled: false
 
-  jpa:
-    generate-ddl: false
-    hibernate:
-      ddl-auto: none
+    command:
+      version:
+        enabled: false
 
-    properties:
-      hibernate:
-        format_sql: false
+mongock:
+  #runner-type: "ApplicationRunner" # default
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.hw.changelogs
+  mongo-db:
+    write-concern:
+      journal: false
+    read-concern: local
 
-    show-sql: true
+logging:
+  level:
+    root: ERROR
