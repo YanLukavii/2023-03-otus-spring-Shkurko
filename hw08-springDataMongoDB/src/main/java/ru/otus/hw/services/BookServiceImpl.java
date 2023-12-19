@@ -22,6 +22,8 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
 
+    private final CommentService commentService;
+
     @Transactional(readOnly = true)
     @Override
     public Optional<Book> findById(String id) {
@@ -48,7 +50,7 @@ public class BookServiceImpl implements BookService {
         var genre = genreRepository.findById(genreId)
                 .orElseThrow(() -> new EntityNotFoundException("Genre with id %s not found".formatted(genreId)));
 
-        var book = new Book( title, author, genre);
+        var book = new Book(title, author, genre);
 
         return bookRepository.save(book);
     }
@@ -76,6 +78,10 @@ public class BookServiceImpl implements BookService {
     @Transactional
     @Override
     public void deleteById(String id) {
+
+        commentService.findByBookId(id)
+                .forEach(comment -> commentService.deleteById(comment.getId()));
+
         bookRepository.deleteById(id);
     }
 }

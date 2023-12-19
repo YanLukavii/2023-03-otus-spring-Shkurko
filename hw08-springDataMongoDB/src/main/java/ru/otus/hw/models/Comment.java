@@ -14,13 +14,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Document(collection = "comments")
 public class Comment {
-    @Id
 
+    @Id
     private String id;
 
-
     private String text;
-
 
     private Book book;
 

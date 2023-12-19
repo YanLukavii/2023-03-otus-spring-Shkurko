@@ -5,6 +5,7 @@ import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.client.MongoDatabase;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
+import ru.otus.hw.models.Comment;
 import ru.otus.hw.models.Genre;
 import ru.otus.hw.repositories.AuthorRepository;
 import ru.otus.hw.repositories.BookRepository;
@@ -22,6 +23,10 @@ public class InitMongoDBDataChangeLog {
     private Genre genre_2;
     private Genre genre_3;
 
+    private Book book_1;
+    private Book book_2;
+    private Book book_3;
+
     private CommentRepository commentRepository;
 
     @ChangeSet(order = "000", id = "dropDB", author = "stvort", runAlways = true)
@@ -31,9 +36,9 @@ public class InitMongoDBDataChangeLog {
 
     @ChangeSet(order = "001", id = "initAuthors", author = "yan", runAlways = true)
     public void initAuthors(AuthorRepository authorRepository) {
-         author_1 = authorRepository.save(new Author("Author_1"));
-         author_2 = authorRepository.save(new Author("Author_2"));
-         author_3 = authorRepository.save(new Author("Author_3"));
+        author_1 = authorRepository.save(new Author("Author_1"));
+        author_2 = authorRepository.save(new Author("Author_2"));
+        author_3 = authorRepository.save(new Author("Author_3"));
     }
 
     @ChangeSet(order = "002", id = "initGenres", author = "yan", runAlways = true)
@@ -44,10 +49,17 @@ public class InitMongoDBDataChangeLog {
     }
 
     @ChangeSet(order = "003", id = "initBooks", author = "yan", runAlways = true)
-    public void initBooks(BookRepository bookRepository){
-        bookRepository.save(new Book("Book_1",author_1,genre_1));
-        bookRepository.save(new Book("Book_2",author_2,genre_2));
-        bookRepository.save(new Book("Book_3",author_3,genre_3));
+    public void initBooks(BookRepository bookRepository) {
+        book_1 = bookRepository.save(new Book("Book_1", author_1, genre_1));
+        book_2 = bookRepository.save(new Book("Book_2", author_2, genre_2));
+        book_3 = bookRepository.save(new Book("Book_3", author_3, genre_3));
+    }
+
+    @ChangeSet(order = "004", id = "initComments", author = "yan", runAlways = true)
+    public void initComments(CommentRepository commentRepository) {
+          commentRepository.save(new Comment("Comment_1", book_1));
+          commentRepository.save(new Comment("Comment_2", book_2));
+          commentRepository.save(new Comment("Comment_3", book_3));
     }
 /*
     @ChangeSet(order = "001", id = "initKnowledges", author = "stvort", runAlways = true)
