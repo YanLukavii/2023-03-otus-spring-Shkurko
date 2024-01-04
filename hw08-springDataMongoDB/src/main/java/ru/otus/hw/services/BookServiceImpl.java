@@ -2,7 +2,6 @@ package ru.otus.hw.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.repositories.AuthorRepository;
@@ -24,7 +23,6 @@ public class BookServiceImpl implements BookService {
 
     private final CommentService commentService;
 
-    @Transactional(readOnly = true)
     @Override
     public Optional<Book> findById(String id) {
 
@@ -34,13 +32,11 @@ public class BookServiceImpl implements BookService {
         return Optional.of(book);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public List<Book> findAll() {
         return bookRepository.findAll();
     }
 
-    @Transactional
     @Override
     public Book insert(String title, String authorId, String genreId) {
 
@@ -55,7 +51,6 @@ public class BookServiceImpl implements BookService {
         return bookRepository.save(book);
     }
 
-    @Transactional
     @Override
     public Book update(String id, String title, String authorId, String genreId) {
 
@@ -75,7 +70,6 @@ public class BookServiceImpl implements BookService {
         return bookRepository.save(book);
     }
 
-    @Transactional
     @Override
     public void deleteById(String id) {
 
