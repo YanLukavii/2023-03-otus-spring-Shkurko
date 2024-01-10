@@ -151,6 +151,7 @@
         <module>hw05-springJdbc</module>
         <module>hw06-springOrm</module>
         <module>hw07-springData</module>
+        <module>hw09-spring-mvc-view</module>
     </modules>
 
 
