@@ -20,7 +20,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Optional<Comment> findById(String id) {
-        return commentRepository.findById(id);
+
+        var comment = commentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Comment with id %s not found".formatted(id)));
+
+        return Optional.of(comment);
+
     }
 
     @Override

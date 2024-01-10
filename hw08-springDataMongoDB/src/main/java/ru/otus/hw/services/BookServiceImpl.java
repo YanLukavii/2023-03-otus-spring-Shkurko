@@ -21,8 +21,6 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
 
-    private final CommentService commentService;
-
     @Override
     public Optional<Book> findById(String id) {
 
@@ -72,9 +70,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteById(String id) {
-
-        commentService.findByBookId(id)
-                .forEach(comment -> commentService.deleteById(comment.getId()));
 
         bookRepository.deleteById(id);
     }
