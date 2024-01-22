@@ -23,6 +23,7 @@
             width: 50px;
         }
 
+
     </style>
 </head>
 <body>
@@ -42,11 +43,12 @@
     <tr th:each="book : ${books}">
         <td th:text="${book.id}">1</td>
         <td th:text="${book.title}">Title</td>
-        <td th:text="${book.genre.name}">Genre</td>
-        <td th:text="${book.author.fullName}">John Doe</td>
+        <td th:text="${book.author}">Author</td>
+        <td th:text="${book.genre}">Genre</td>
         <td>
             <a href="edit.html" th:href="@{/edit(id=${book.id})}">Edit</a>
             <a href="delete.html" th:href="@{/delete/{id}(id=${book.id})}" onclick="return confirm('Are you sure?')">Delete</a>
+            <a href="comments.html" th:href="@{/comments(id=${book.id})}">Comments</a>
         </td>
     </tr>
     </tbody>

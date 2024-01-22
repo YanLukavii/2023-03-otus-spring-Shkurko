@@ -6,17 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.otus.hw.dto.BookDto;
+import ru.otus.hw.dto.*;
 import ru.otus.hw.mappers.BookMapper;
-import ru.otus.hw.models.Author;
-import ru.otus.hw.models.Book;
-import ru.otus.hw.models.Genre;
 import ru.otus.hw.services.AuthorService;
 import ru.otus.hw.services.BookService;
+import ru.otus.hw.services.CommentService;
 import ru.otus.hw.services.GenreService;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.BDDMockito.given;
@@ -44,9 +41,11 @@ class BookControllerTest {
     @MockBean
     private BookMapper bookMapper;
 
-    private final static List<Book> BOOKS_LIST = List.of(new Book(1, "b_1", new Author(1, "a_1"),
-                    new Genre(1, "g_1")),
-            new Book(2, "b_2", new Author(2, "a_2"), new Genre(2, "g_2")));
+    @MockBean
+    private CommentService commentService;
+
+    private final static List<BookDto> BOOKS_LIST = List.of(new BookDto(1, "b_1", "a_1", "g_1"),
+            new BookDto(2, "b_2", "a_2", "g_2"));
 
     @Test
     void shouldCallDeleteMethod() throws Exception {
@@ -88,29 +87,21 @@ class BookControllerTest {
     public void testEditPage() throws Exception {
 
         long id = 1L;
-        Author author = new Author(1, "A_1");
-        Genre genre = new Genre(1, "A_2");
-        Book book = new Book(1, "Book_1", author, genre);
+        AuthorDto author = new AuthorDto(1, "A_1");
+        GenreDto genre = new GenreDto(1, "A_2");
+        BookUpdateDto book = new BookUpdateDto(1, "Book_1", author.getId(), genre.getId());
 
 
-        List<Author> authors = List.of(author);
-        List<Genre> genres = List.of(genre);
+        List<AuthorDto> authors = List.of(author);
+        List<GenreDto> genres = List.of(genre);
 
-        BookDto bookDto = new BookDto();
-        bookDto.setId(id);
-        bookDto.setTitle(book.getTitle());
-        bookDto.setAuthorId(genre.getId());
-        bookDto.setGenreId(genre.getId());
-
-
-        when(bookService.findById(id)).thenReturn(Optional.of(book));
+        when(bookService.findById(id)).thenReturn(book);
         when(authorService.findAll()).thenReturn(authors);
         when(genreService.findAll()).thenReturn(genres);
-        when(bookMapper.toDto(book)).thenReturn(bookDto);
 
         mvc.perform(get("/edit").param("id", String.valueOf(id)))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("book", bookDto))
+                .andExpect(model().attribute("book", book))
                 .andExpect(model().attribute("authors", authors))
                 .andExpect(model().attribute("genres", genres))
                 .andExpect(view().name("edit"));
@@ -119,50 +110,49 @@ class BookControllerTest {
     @Test
     public void testCreatePage() throws Exception {
 
-        Author author = new Author(1, "a_2");
-        Genre genre = new Genre(1, "g_2");
+        AuthorDto author = new AuthorDto(1, "a_2");
+        GenreDto genre = new GenreDto(1, "g_2");
 
-        List<Author> authors = List.of(author);
-        List<Genre> genres = List.of(genre);
+        List<AuthorDto> authors = List.of(author);
+        List<GenreDto> genres = List.of(genre);
 
         when(authorService.findAll()).thenReturn(authors);
         when(genreService.findAll()).thenReturn(genres);
 
         mvc.perform(get("/create"))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("book", new BookDto()))
+                .andExpect(model().attribute("book", new BookCreateDto()))
                 .andExpect(model().attribute("authors", authors))
                 .andExpect(model().attribute("genres", genres))
                 .andExpect(view().name("create"));
     }
 
     @Test
-    public void shouldCallInsertMethod() throws Exception {
-        String title = "Title";
-        long authorId = 1L;
-        long genreId = 2L;
+    public void shouldCallCreateMethod() throws Exception {
+
+        BookCreateDto bookCreateDto = new BookCreateDto(0,"Title",2,3);
+
         mvc.perform(post("/create")
-                        .param("title", title)
-                        .param("authorId", String.valueOf(authorId))
-                        .param("genreId", String.valueOf(genreId)))
+                        .param("title", bookCreateDto.getTitle())
+                        .param("authorId", String.valueOf(bookCreateDto.getAuthorId()))
+                        .param("genreId", String.valueOf(bookCreateDto.getGenreId())))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"));
-        verify(bookService).insert(title, authorId, genreId);
+        verify(bookService).create(bookCreateDto);
     }
 
     @Test
     public void shouldCallUpdateMethod() throws Exception {
-        long id = 1L;
-        String title = "Title";
-        long authorId = 2L;
-        long genreId = 3L;
+
+        BookUpdateDto bookUpdateDto = new BookUpdateDto(1,"Title",2,3);
+
         mvc.perform(post("/edit")
-                        .param("id", String.valueOf(id))
-                        .param("title", title)
-                        .param("authorId", String.valueOf(authorId))
-                        .param("genreId", String.valueOf(genreId)))
+                        .param("id", String.valueOf(bookUpdateDto.getId()))
+                        .param("title", bookUpdateDto.getTitle())
+                        .param("authorId", String.valueOf(bookUpdateDto.getAuthorId()))
+                        .param("genreId", String.valueOf(bookUpdateDto.getGenreId())))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"));
-        verify(bookService).update(id, title, authorId, genreId);
+        verify(bookService).update(bookUpdateDto);
     }
 }
