@@ -2,6 +2,7 @@ package ru.otus.hw.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,6 @@ public class CommentUpdateDto {
     @NotBlank
     private String text;
 
-    @PositiveOrZero
+    @Positive
     private long bookId;
 }
