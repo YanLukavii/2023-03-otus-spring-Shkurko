@@ -152,6 +152,7 @@
         <module>hw06-springOrm</module>
         <module>hw07-springData</module>
         <module>hw08-springDataMongoDB</module>
+        <module>hw09-spring-mvc-view</module>
     </modules>
 
 
