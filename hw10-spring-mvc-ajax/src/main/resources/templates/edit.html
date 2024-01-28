@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Book</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+         .errors {
+            color: red;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<h1>Edit Book</h1>
+<form id="edit-form" action="edit.html" >
+
+    <div class="row">
+        <label for="id-input">ID:</label>
+        <input id="id-input" type="text" readonly="readonly" name="id" th:value="${id}" value=""/>
+
+    </div>
+
+    <div class="row">
+        <label for="book-title-save">Title:</label>
+        <input id="book-title-save" name="title" type="text" value=""/>
+    </div>
+
+    <div class="row">
+        <label for="authorId">Author:</label>
+        <select id="authorId" name="authorId">
+            <option value="">Select Author</option>
+        </select>
+    </div>
+
+    <div class="row">
+        <label for="genreId">Genre:</label>
+        <select id="genreId" name="genreId">
+            <option value="">Select Genre</option>
+        </select>
+    </div>
+
+    <div class="row">
+        <button type="button" onclick="updateBook()">Update</button>
+        <a href="list.html" th:href="@{/}">
+            <button type="button">Go Back</button>
+        </a>
+    </div>
+
+
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+        function updateBook() {
+            const savedBookContainer = document.getElementById("saved-book")
+            const bookId = document.getElementById("id-input")
+            const titleInput = document.getElementById("book-title-save")
+            const authorInput = document.getElementById("authorId")
+            const genreInput = document.getElementById("genreId")
+
+              if (titleInput.value.trim() !== ''
+               && authorInput.value.trim() !== ''
+                && genreInput.value.trim() !== '')
+                {
+
+            const book = {
+            id: bookId.value,
+            title: titleInput.value,
+            authorId: authorInput.value,
+            genreId: genreInput.value
+           }
+
+            fetch("/api/books/" + book.id, {
+                method: 'PUT',
+                referrer: "",
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(book)})
+            .then(rawResponse => rawResponse.json())
+            .then(json => savedBookContainer.innerHTML = JSON.stringify(json, null, 4))
+        }  else {
+        alert("Title, Author, Genre cannot be empty!")
+}}
+</script>
+
+<script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "/api/authors",
+                type: "GET",
+                dataType: "json",
+                success: function(authors) {
+                    $.each(authors, function(i, author) {
+                        $("#authorId").append("<option value='" + author.id + "'>" + author.fullName + "</option>");
+                    });
+                }
+            });
+        });
+</script>
+
+<script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "/api/genres",
+                type: "GET",
+                dataType: "json",
+                success: function(genres) {
+                    $.each(genres, function(i, genre) {
+                        $("#genreId").append("<option value='" + genre.id + "'>" + genre.name + "</option>");
+                    });
+                }
+            });
+        });
+</script>
+
+<h3>Saved book:</h3>
+<pre id="saved-book"></pre>
+</body>
+</html>
