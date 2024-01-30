@@ -1,6 +1,5 @@
 package ru.otus.hw.controllers;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +14,7 @@ public class BookController {
     public String listPage() {
         return "list";
     }
+
     @GetMapping("/edit/{id}")
     public String editPage(@PathVariable("id") long id, Model model) {
         model.addAttribute("id", id);
