@@ -17,6 +17,4 @@ public class CommentUpdateDto {
     @NotBlank
     private String text;
 
-    @NotNull
-    private long bookId;
 }
