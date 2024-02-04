@@ -1,8 +1,7 @@
 package ru.otus.hw.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,12 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CommentUpdateDto {
 
-    @PositiveOrZero
+    @NotNull
     private long id;
 
     @NotBlank
     private String text;
 
-    @Positive
+    @NotNull
     private long bookId;
 }

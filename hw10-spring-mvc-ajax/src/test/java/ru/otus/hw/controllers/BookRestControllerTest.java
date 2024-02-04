@@ -10,12 +10,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.dto.BookCreateDto;
 import ru.otus.hw.dto.BookUpdateDto;
 import ru.otus.hw.dto.BookDto;
-import ru.otus.hw.dto.AuthorDto;
-import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.mappers.BookMapper;
-import ru.otus.hw.services.AuthorService;
 import ru.otus.hw.services.BookService;
-import ru.otus.hw.services.GenreService;
 
 import java.util.List;
 
@@ -41,22 +37,10 @@ public class BookRestControllerTest {
     private BookService bookService;
 
     @MockBean
-    private AuthorService authorService;
-
-    @MockBean
-    private GenreService genreService;
-
-    @MockBean
     private BookMapper bookMapper;
 
     private final static List<BookDto> BOOKS_LIST = List.of(new BookDto(1, "b_1", "a_1", "g_1"),
             new BookDto(2, "b_2", "a_2", "g_2"));
-
-    private final static List<AuthorDto> AUTHOR_LIST = List.of(new AuthorDto(1,"a_1"),
-            new AuthorDto(2,"a_2"));
-
-    private final static List<GenreDto> GENRE_LIST = List.of(new GenreDto(1,"g_1"),
-            new GenreDto(2,"g_2"));
 
     @Test
     void shouldReturnCorrectBookList() throws Exception {
@@ -69,36 +53,16 @@ public class BookRestControllerTest {
     }
 
     @Test
-    void shouldReturnCorrectAuthorList() throws Exception {
-
-        given(authorService.findAll()).willReturn(AUTHOR_LIST);
-
-        mvc.perform(get("/api/authors"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(AUTHOR_LIST)));
-    }
-
-    @Test
-    void shouldReturnCorrectGenreList() throws Exception {
-
-        given(genreService.findAll()).willReturn(GENRE_LIST);
-
-        mvc.perform(get("/api/genres"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(GENRE_LIST)));
-    }
-
-    @Test
     void shouldCorrectCallCreateBookMethod() throws Exception {
 
-        BookCreateDto bookCreateDto = new BookCreateDto(0, "Title",  1, 1);
+        BookCreateDto bookCreateDto = new BookCreateDto("Title",  1, 1);
 
         String expectedResult = objectMapper.writeValueAsString(bookCreateDto);
 
         mvc.perform(post("/api/books")
                 .contentType(APPLICATION_JSON)
                 .content(expectedResult))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 
         verify(bookService).create(bookCreateDto);
     }
@@ -121,7 +85,7 @@ public class BookRestControllerTest {
     @Test
     void shouldCorrectDeleteBook() throws Exception {
         mvc.perform(delete("/api/books/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
         verify(bookService, times(1)).deleteById(1L);
     }
 }

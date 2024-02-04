@@ -30,12 +30,12 @@ public class BookServiceImpl implements BookService {
 
     @Transactional(readOnly = true)
     @Override
-    public BookUpdateDto findById(long id) {
+    public BookDto findById(long id) {
 
       Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Book with id %d not found".formatted(id)));
 
-        return bookMapper.toUpdateDto(book);
+        return bookMapper.toDto(book);
     }
 
     @Transactional(readOnly = true)
@@ -49,6 +49,7 @@ public class BookServiceImpl implements BookService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public BookDto create(BookCreateDto dto) {
 
@@ -63,6 +64,7 @@ public class BookServiceImpl implements BookService {
         return bookMapper.toDto(bookRepository.save(book));
     }
 
+    @Transactional
     @Override
     public BookDto update(BookUpdateDto dto) {
 
