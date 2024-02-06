@@ -153,6 +153,8 @@
         <module>hw07-springData</module>
         <module>hw08-springDataMongoDB</module>
         <module>hw09-spring-mvc-view</module>
+        <module>hw10-spring-mvc-ajax</module>
+
     </modules>
 
 
