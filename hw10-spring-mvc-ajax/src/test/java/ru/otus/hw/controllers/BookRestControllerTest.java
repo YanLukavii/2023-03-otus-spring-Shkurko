@@ -55,7 +55,7 @@ public class BookRestControllerTest {
     @Test
     void shouldCorrectCallCreateBookMethod() throws Exception {
 
-        BookCreateDto bookCreateDto = new BookCreateDto("Title",  1, 1);
+        BookCreateDto bookCreateDto = new BookCreateDto("Title",  1L, 1L);
 
         String expectedResult = objectMapper.writeValueAsString(bookCreateDto);
 
@@ -70,7 +70,7 @@ public class BookRestControllerTest {
     @Test
     void shouldCorrectCallUpdateBookMethod() throws Exception {
 
-        BookUpdateDto bookUpdateDto = new BookUpdateDto(1, "Title",  1, 1);
+        BookUpdateDto bookUpdateDto = new BookUpdateDto(1L, "Title",  1L, 1L);
 
         String expectedResult = objectMapper.writeValueAsString(bookUpdateDto);
 

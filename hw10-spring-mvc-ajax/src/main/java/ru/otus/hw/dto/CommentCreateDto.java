@@ -15,6 +15,6 @@ public class CommentCreateDto {
     private String text;
 
     @NotNull
-    private long bookId;
+    private Long bookId;
 
 }

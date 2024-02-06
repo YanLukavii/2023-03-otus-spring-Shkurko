@@ -11,7 +11,7 @@
 
     <groupId>ru.otus.hw</groupId>
     <artifactId>hw10-spring-mvc-ajax</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>hw10-spring-mvc-ajax</name>
 
     <properties>
