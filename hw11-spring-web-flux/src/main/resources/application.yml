@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5430/demoDB
+    username: usr
+    password: pwd
+
+  flyway:
+    url: jdbc:postgresql://localhost:5430/demoDB
+    user: usr
+    password: pwd
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+    properties:
+      hibernate:
+        format_sql: false
+
+    show-sql: true
