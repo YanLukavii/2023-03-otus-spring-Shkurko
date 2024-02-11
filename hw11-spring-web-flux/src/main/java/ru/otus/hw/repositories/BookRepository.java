@@ -1,18 +1,14 @@
 package ru.otus.hw.repositories;
 
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.hw.models.Book;
 
-import java.util.List;
-import java.util.Optional;
+public interface BookRepository extends ReactiveMongoRepository<Book, String> {
 
+    Mono<Book> findById(String id);
 
-public interface BookRepository extends JpaRepository<Book, Long> {
+    Flux<Book> findAll();
 
-    @EntityGraph(value = "entity-gr")
-    Optional<Book> findById(long id);
-
-    @EntityGraph(value = "entity-gr")
-    List<Book> findAll();
 }

@@ -1,4 +1,4 @@
-package ru.otus.hw.exceptions;
+package ru.otus.hw.handlers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.otus.hw.exceptions.NotFoundException;
 
 import java.util.HashMap;
 import java.util.Map;

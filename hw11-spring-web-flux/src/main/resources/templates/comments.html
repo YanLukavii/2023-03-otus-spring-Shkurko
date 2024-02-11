@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <meta charset="UTF-8"/>
+    <title>Comments</title>
+    <style type="text/css">
+          body {
+            padding: 50px;
+        }
+
+        .comments {
+            border: 1px solid steelblue;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .comments tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .comments td:last-child, td:first-child {
+            width: 50px;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<h3> Comments for book with ID:<span th:text="${id}"></span></h3>
+<div class="row">
+    <label for="id-input">Book ID:</label>
+    <input id="id-input" type="text" readonly="readonly" name="id" th:value="${id}" value=""/>
+
+</div>
+<table id="comments" class="comments">
+    <thead>
+    <tr>
+        <th>Comment id</th>
+        <th>Text</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+
+<div class="row">
+    <a href="list.html" th:href="@{/}">
+        <button type="button">Cancel</button>
+    </a>
+</div>
+
+<script>
+      const commentsTable = document.getElementById("comments");
+      const bookId = document.getElementById("id-input");
+
+      fetch("/api/comments/" + bookId.value)
+        .then(response => response.json())
+        .then(comments => {
+          comments.forEach(comment => {
+           commentsTable.querySelector("tbody").innerHTML +=
+                `
+                    <tr>
+              <td>${comment.id}</td>
+              <td>${comment.text}</td>
+                    </tr>
+                `
+            });
+        });
+</script>
+
+</body>
+</html>

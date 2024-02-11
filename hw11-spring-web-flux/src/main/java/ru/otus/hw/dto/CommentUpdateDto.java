@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class CommentUpdateDto {
 
     @NotNull
-    private Long id;
+    private String id;
 
     @NotBlank
     private String text;
