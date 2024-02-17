@@ -13,3 +13,7 @@ alter table books alter column id restart with 4;
 merge into comments(id, text, book_id)
 values (1, 'Comment_1', 1), (2, 'Comment_2', 2), (3, 'Comment_3', 3);
 alter table comments alter column id restart with 4;
+
+merge into users(id, username, password)
+values (1, 'usr', '$2a$12$p8HOkYJRZREUG.gesNBjl.dB98NULlw43HkfbZFOmzld106ov8Lj6'),  (2, 'adm', '$2a$12$p8HOkYJRZREUG.gesNBjl.dB98NULlw43HkfbZFOmzld106ov8Lj6');
+alter table users alter column id restart with 3;
