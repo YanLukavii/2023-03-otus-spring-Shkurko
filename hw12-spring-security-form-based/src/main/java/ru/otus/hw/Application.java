@@ -11,6 +11,8 @@ public class Application {
 		SpringApplication.run(Application.class);
 		System.out.printf("Чтобы перейти на страницу сайта открывай: %n%s%n",
 				"http://localhost:8080");
+		System.out.println("usr:pwd");
+		System.out.println("adm:pwd");
 
 	}
 
