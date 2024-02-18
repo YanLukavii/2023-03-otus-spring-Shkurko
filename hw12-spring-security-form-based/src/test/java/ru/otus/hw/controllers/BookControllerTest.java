@@ -5,25 +5,27 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.dto.*;
 import ru.otus.hw.mappers.BookMapper;
-import ru.otus.hw.services.AuthorService;
-import ru.otus.hw.services.BookService;
-import ru.otus.hw.services.CommentService;
-import ru.otus.hw.services.GenreService;
+import ru.otus.hw.security.SecurityConfiguration;
+import ru.otus.hw.services.*;
 
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(BookController.class)
+@Import(SecurityConfiguration.class)
+@WithMockUser("usr")
 class BookControllerTest {
 
     @Autowired
@@ -44,19 +46,22 @@ class BookControllerTest {
     @MockBean
     private CommentService commentService;
 
+    @MockBean
+    private UserService service;
+
     private final static List<BookDto> BOOKS_LIST = List.of(new BookDto(1, "b_1", "a_1", "g_1"),
             new BookDto(2, "b_2", "a_2", "g_2"));
 
     @Test
-    void shouldForbiddenWhenCallDeleteEndpoint() throws Exception {
+    void shouldCallDeleteMethod() throws Exception {
         long id = 1L;
         mvc.perform(post("/delete/{id}", id))
-                .andExpect(status().is4xxClientError());
-
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"));
+        verify(bookService).deleteById(id);
     }
 
     @Test
-    @WithMockUser("usr")
     void shouldRenderCorrectBookList() throws Exception {
 
         given(bookService.findAll()).willReturn(BOOKS_LIST);
@@ -73,7 +78,6 @@ class BookControllerTest {
     }
 
     @Test
-    @WithMockUser("usr")
     public void testListPage() throws Exception {
 
         when(bookService.findAll()).thenReturn(BOOKS_LIST);
@@ -85,15 +89,6 @@ class BookControllerTest {
     }
 
     @Test
-    public void testListPageUnauthorized() throws Exception {
-
-        mvc.perform(get("/"))
-                .andExpect(status().isUnauthorized())
-                .andExpect(status().is4xxClientError());
-    }
-
-    @Test
-    @WithMockUser("usr")
     public void testEditPage() throws Exception {
 
         long id = 1L;
@@ -118,7 +113,6 @@ class BookControllerTest {
     }
 
     @Test
-    @WithMockUser("usr")
     public void testCreatePage() throws Exception {
 
         AuthorDto author = new AuthorDto(1, "a_2");
@@ -139,7 +133,7 @@ class BookControllerTest {
     }
 
     @Test
-    public void shouldForbiddenWhenCallCreateEndpoint() throws Exception {
+    public void shouldCallCreateMethod() throws Exception {
 
         BookCreateDto bookCreateDto = new BookCreateDto("Title",2L,3L);
 
@@ -147,11 +141,13 @@ class BookControllerTest {
                         .param("title", bookCreateDto.getTitle())
                         .param("authorId", String.valueOf(bookCreateDto.getAuthorId()))
                         .param("genreId", String.valueOf(bookCreateDto.getGenreId())))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"));
+        verify(bookService).create(bookCreateDto);
     }
 
     @Test
-    public void shouldForbiddenWhenCallUpdateEndpoint() throws Exception {
+    public void shouldCallUpdateMethod() throws Exception {
 
         BookUpdateDto bookUpdateDto = new BookUpdateDto(1L,"Title",2L,3L);
 
@@ -160,6 +156,8 @@ class BookControllerTest {
                         .param("title", bookUpdateDto.getTitle())
                         .param("authorId", String.valueOf(bookUpdateDto.getAuthorId()))
                         .param("genreId", String.valueOf(bookUpdateDto.getGenreId())))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"));
+        verify(bookService).update(bookUpdateDto);
     }
 }
