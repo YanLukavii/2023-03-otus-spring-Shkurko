@@ -156,6 +156,7 @@
         <module>hw10-spring-mvc-ajax</module>
         <module>hw11-spring-web-flux</module>
 
+        <module>hw13-spring-security-authorization</module>
     </modules>
 
 
