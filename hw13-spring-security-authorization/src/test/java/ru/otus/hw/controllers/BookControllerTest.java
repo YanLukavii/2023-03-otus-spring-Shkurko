@@ -1,6 +1,5 @@
 package ru.otus.hw.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -30,9 +29,6 @@ class BookControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @Autowired
-    private ObjectMapper mapper;
-
     @MockBean
     private BookService bookService;
 
@@ -49,7 +45,7 @@ class BookControllerTest {
     private CommentService commentService;
 
     @MockBean
-    private UserService userService;
+    private UserSecurityDataService userSecurityDataService;
 
     private final static List<BookDto> BOOKS_LIST = List.of(new BookDto(1, "b_1", "a_1", "g_1"),
             new BookDto(2, "b_2", "a_2", "g_2"));
@@ -179,21 +175,8 @@ class BookControllerTest {
     }
 
     @Test
-    @WithMockUser(value = "usr",roles = "USER")
-    public void shouldForbiddenWhenCallCreateEndpointUser() throws Exception {
-
-        BookCreateDto bookCreateDto = new BookCreateDto("Title",2L,3L);
-
-        mvc.perform(post("/create")
-                        .param("title", bookCreateDto.getTitle())
-                        .param("authorId", String.valueOf(bookCreateDto.getAuthorId()))
-                        .param("genreId", String.valueOf(bookCreateDto.getGenreId())))
-                .andExpect(status().is4xxClientError());
-    }
-
-    @Test
-    @WithMockUser(value = "usr",roles = "ADMIN")
-    public void shouldCallCreateEndpointAdmin() throws Exception {
+    @WithMockUser(value = "usr",roles = {"ADMIN", "USER"})
+    public void shouldCallCreateEndpointAdminAndUserRoles() throws Exception {
 
         BookCreateDto bookCreateDto = new BookCreateDto("Title",2L,3L);
 

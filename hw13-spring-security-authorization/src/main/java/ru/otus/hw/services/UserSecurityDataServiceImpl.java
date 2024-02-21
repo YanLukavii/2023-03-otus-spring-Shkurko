@@ -9,7 +9,7 @@ import ru.otus.hw.repositories.UserRepository;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserSecurityDataServiceImpl implements UserSecurityDataService {
 
 
     private final UserRepository userRepository;
