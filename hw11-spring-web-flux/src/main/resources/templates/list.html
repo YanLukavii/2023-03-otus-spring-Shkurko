@@ -52,17 +52,17 @@
       fetch("/api/books")
         .then(response => response.json())
         .then(books => {
-          books.forEach(bookMongo => {
+          books.forEach(book => {
             booksTable.querySelector("tbody").innerHTML +=
                 `
                     <tr>
-              <td>${bookMongo.id}</td>
-              <td>${bookMongo.title}</td>
-              <td>${bookMongo.authorMongo}</td>
-              <td>${bookMongo.genreMongo}</td>
-              <td><button onclick="deleteBook('${bookMongo.id}')">Delete</button>
-               <a href="/edit/${bookMongo.id}">Edit</a>
-                <a href="/comments/${bookMongo.id}">Comments</a>
+              <td>${book.id}</td>
+              <td>${book.title}</td>
+              <td>${book.author}</td>
+              <td>${book.genre}</td>
+              <td><button onclick="deleteBook('${book.id}')">Delete</button>
+               <a href="/edit/${book.id}">Edit</a>
+                <a href="/comments/${book.id}">Comments</a>
               </td>
                     </tr>
                 `
