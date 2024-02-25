@@ -22,15 +22,11 @@ spring:
       port: 27017
       database: libraryMongo
 
-
   datasource:
     url: jdbc:h2:mem:maindb
   sql:
     init:
       mode: always
-
-
-
   h2:
     console:
       enabled: true

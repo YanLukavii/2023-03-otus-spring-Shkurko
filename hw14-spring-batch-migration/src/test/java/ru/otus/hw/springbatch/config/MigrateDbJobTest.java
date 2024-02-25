@@ -19,7 +19,7 @@ import static ru.otus.hw.springbatch.config.JobConfig.MIGRATE_DB_JOB_NAME;
 
 @SpringBootTest
 @SpringBatchTest
-class ImportUserJobTest {
+class MigrateDbJobTest {
 
     @Autowired
     private JobLauncherTestUtils jobLauncherTestUtils;
