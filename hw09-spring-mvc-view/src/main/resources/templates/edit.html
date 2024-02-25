@@ -43,7 +43,7 @@
     </div>
 
     <div class="row">
-        <select id="genreId" th:field="${booko.genreId}">
+        <select id="genreId" th:field="${book.genreId}">
             <option th:each="genre : ${genres}"
                     th:value="${genre.id}"
                     th:text="${genre.name}">
