@@ -29,7 +29,7 @@
 </head>
 <body>
 <h3>Edit Book</h3>
-<form id="save-form" action="edit.html" th:method="post" th:action="@{/edit(id=${book.id})}" th:object="${book}">
+<form id="save-form" action="edit.html" th:method="post" th:action="@{/edit(id=${bookMongo.id})}" th:object="${bookMongo}">
 
     <div class="row">
         <label for="id-input">ID:</label>
@@ -37,25 +37,25 @@
     </div>
 
     <div class="row">
-        <label for="book-title-save" >Title:</label>
-        <input id="book-title-save" name="title" type="text" value="John Doe" th:value="*{title}"/>
-        <div class="errors" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Wrong book title error</div>
+        <label for="bookMongo-title-save" >Title:</label>
+        <input id="bookMongo-title-save" name="title" type="text" value="John Doe" th:value="*{title}"/>
+        <div class="errors" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Wrong bookMongo title error</div>
     </div>
 
     <div class="row">
-        <select id="genreId" th:field="${book.genreId}">
-            <option th:each="genre : ${genres}"
-                    th:value="${genre.id}"
-                    th:text="${genre.name}">
+        <select id="genreId" th:field="${bookMongo.genreId}">
+            <option th:each="genreMongo : ${genres}"
+                    th:value="${genreMongo.id}"
+                    th:text="${genreMongo.name}">
             </option>
         </select>
     </div>
 
     <div class="row">
-        <select id="authorId" th:field="${book.authorId}">
-            <option th:each="author : ${authors}"
-                    th:value="${author.id}"
-                    th:text="${author.fullName}">
+        <select id="authorId" th:field="${bookMongo.authorId}">
+            <option th:each="authorMongo : ${authors}"
+                    th:value="${authorMongo.id}"
+                    th:text="${authorMongo.fullName}">
             </option>
         </select>
     </div>

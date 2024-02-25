@@ -33,8 +33,8 @@
 <form id="create-form" action="create.html" th:method="post">
 
     <div class="row">
-        <label for="book-title-save">Title:</label>
-        <input id="book-title-save" name="title" type="text" value=""/>
+        <label for="bookMongo-title-save">Title:</label>
+        <input id="bookMongo-title-save" name="title" type="text" value=""/>
     </div>
 
     <div class="row">
@@ -65,8 +65,8 @@
 <script>
         function saveBook() {
 
-            const savedBookContainer = document.getElementById("saved-book")
-            const titleInput = document.getElementById("book-title-save")
+            const savedBookContainer = document.getElementById("saved-bookMongo")
+            const titleInput = document.getElementById("bookMongo-title-save")
             const authorInput = document.getElementById("authorId")
             const genreInput = document.getElementById("genreId")
 
@@ -75,7 +75,7 @@
                 && genreInput.value.trim() !== '')
                 {
 
-            const book = {
+            const bookMongo = {
             title: titleInput.value,
             authorId: authorInput.value,
             genreId: genreInput.value
@@ -87,7 +87,7 @@
                   'Accept': 'application/json',
                   'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(book)})
+                body: JSON.stringify(bookMongo)})
             .then(rawResponse => rawResponse.json())
             .then(json => savedBookContainer.innerHTML = JSON.stringify(json, null, 4))
         }  else {
@@ -104,8 +104,8 @@
                 type: "GET",
                 dataType: "json",
                 success: function(authors) {
-                    $.each(authors, function(i, author) {
-                        $("#authorId").append("<option value='" + author.id + "'>" + author.fullName + "</option>");
+                    $.each(authors, function(i, authorMongo) {
+                        $("#authorId").append("<option value='" + authorMongo.id + "'>" + authorMongo.fullName + "</option>");
                     });
                 }
             });
@@ -122,8 +122,8 @@
                 type: "GET",
                 dataType: "json",
                 success: function(genres) {
-                    $.each(genres, function(i, genre) {
-                        $("#genreId").append("<option value='" + genre.id + "'>" + genre.name + "</option>");
+                    $.each(genres, function(i, genreMongo) {
+                        $("#genreId").append("<option value='" + genreMongo.id + "'>" + genreMongo.name + "</option>");
                     });
                 }
             });
@@ -133,8 +133,8 @@
 
 </script>
 
-<h3>Saved book:</h3>
-<pre id="saved-book"></pre>
+<h3>Saved bookMongo:</h3>
+<pre id="saved-bookMongo"></pre>
 
 </body>
 </html>

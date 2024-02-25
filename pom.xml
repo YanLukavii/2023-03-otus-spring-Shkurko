@@ -155,7 +155,7 @@
         <module>hw09-spring-mvc-view</module>
         <module>hw10-spring-mvc-ajax</module>
         <module>hw11-spring-web-flux</module>
-
+        <module>hw14-spring-batch-migration</module>
     </modules>
 
 

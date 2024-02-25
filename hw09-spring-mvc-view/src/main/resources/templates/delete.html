@@ -7,9 +7,9 @@
 <body>
 <h1>Delete Book</h1>
 
-<p>Are you sure you want to delete book "<span th:text="${book.title}"></span>"?</p>
+<p>Are you sure you want to delete bookMongo "<span th:text="${bookMongo.title}"></span>"?</p>
 
-<form th:action="@{/delete/{id}(id=${book.id})}" method="post">
+<form th:action="@{/delete/{id}(id=${bookMongo.id})}" method="post">
     <input type="submit" value="Yes"/>
     <a th:href="@{/}">No, cancel</a>
 

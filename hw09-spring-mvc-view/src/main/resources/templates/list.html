@@ -40,15 +40,15 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="book : ${books}">
-        <td th:text="${book.id}">1</td>
-        <td th:text="${book.title}">Title</td>
-        <td th:text="${book.author}">Author</td>
-        <td th:text="${book.genre}">Genre</td>
+    <tr th:each="bookMongo : ${books}">
+        <td th:text="${bookMongo.id}">1</td>
+        <td th:text="${bookMongo.title}">Title</td>
+        <td th:text="${bookMongo.authorMongo}">Author</td>
+        <td th:text="${bookMongo.genreMongo}">Genre</td>
         <td>
-            <a href="edit.html" th:href="@{/edit(id=${book.id})}">Edit</a>
-            <a href="delete.html" th:href="@{/delete/{id}(id=${book.id})}" onclick="return confirm('Are you sure?')">Delete</a>
-            <a href="comments.html" th:href="@{/comments(id=${book.id})}">Comments</a>
+            <a href="edit.html" th:href="@{/edit(id=${bookMongo.id})}">Edit</a>
+            <a href="delete.html" th:href="@{/delete/{id}(id=${bookMongo.id})}" onclick="return confirm('Are you sure?')">Delete</a>
+            <a href="comments.html" th:href="@{/comments(id=${bookMongo.id})}">Comments</a>
         </td>
     </tr>
     </tbody>
@@ -56,7 +56,7 @@
 
 <div class="row">
     <a href="create.html" th:href="@{/create}">
-        <button type="button">Insert new book</button>
+        <button type="button">Insert new bookMongo</button>
     </a>
 </div>
 
