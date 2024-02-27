@@ -157,6 +157,7 @@
         <module>hw11-spring-web-flux</module>
         <module>hw12-spring-security-form-based</module>
 
+        <module>hw13-spring-security-authorization</module>
     </modules>
 
 
