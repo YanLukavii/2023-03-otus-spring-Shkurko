@@ -43,7 +43,7 @@ public class RelationshipService {
     private final AtomicLong commentId = new AtomicLong(0);
 
 
-    public Author updateAuthor(AuthorMongo authorMongo) {
+    public Author convert(AuthorMongo authorMongo) {
 
         Author author = new Author(authorId.incrementAndGet(),
                 authorMongo.getFullName());
@@ -53,7 +53,7 @@ public class RelationshipService {
         return author;
     }
 
-    public Genre updateGenre(GenreMongo genreMongo) {
+    public Genre convert(GenreMongo genreMongo) {
 
         Genre genre = new Genre(genreId.incrementAndGet(),
                 genreMongo.getName());
@@ -63,7 +63,7 @@ public class RelationshipService {
         return genre;
     }
 
-    public BookDto updateBook(BookMongo bookMongo) {
+    public BookDto convert(BookMongo bookMongo) {
 
         Book book = new Book(bookId.incrementAndGet(),
                 bookMongo.getTitle(),
@@ -75,7 +75,7 @@ public class RelationshipService {
         return bookMapper.toDto(book);
     }
 
-    public CommentDto updateComment(CommentMongo commentMongo) {
+    public CommentDto convert(CommentMongo commentMongo) {
 
         Comment comment = new Comment(commentId.incrementAndGet(),
                 commentMongo.getText(),

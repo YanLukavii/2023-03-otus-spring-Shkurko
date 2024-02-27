@@ -53,7 +53,7 @@ public class BookMigrateStep {
 
     @Bean
     public ItemProcessor<BookMongo, BookDto> bookProcessor(RelationshipService relationshipService) {
-        return relationshipService::updateBook;
+        return relationshipService::convert;
     }
 
     @Bean

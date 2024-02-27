@@ -55,7 +55,7 @@ public class CommentMigrateStep {
 
     @Bean
     public ItemProcessor<CommentMongo, CommentDto> commentProcessor(RelationshipService relationshipService) {
-        return relationshipService::updateComment;
+        return relationshipService::convert;
     }
 
     @Bean

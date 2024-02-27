@@ -55,7 +55,7 @@ public class GenreMigrateStep {
 
     @Bean
     public ItemProcessor<GenreMongo, Genre> genreProcessor(RelationshipService relationshipService) {
-        return relationshipService::updateGenre;
+        return relationshipService::convert;
     }
 
     @Bean

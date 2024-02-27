@@ -54,7 +54,7 @@ public class AuthorMigrateStep {
 
     @Bean
     public ItemProcessor<AuthorMongo, Author> authorProcessor(RelationshipService relationshipService) {
-        return relationshipService::updateAuthor;
+        return relationshipService::convert;
     }
 
     @Bean
