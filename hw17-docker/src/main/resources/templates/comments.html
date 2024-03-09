@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Comments</title>
+    <style type="text/css">
+          body {
+            padding: 50px;
+        }
+
+        .comments {
+            border: 1px solid steelblue;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .comments tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .comments td:last-child, td:first-child {
+            width: 50px;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<h3> Comments for <span th:text="${book.title}"></span></h3>
+
+<table class="comments">
+    <thead>
+    <tr>
+        <th>Text</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="comment : ${comments}">
+        <td th:text="${comment.text}">Text</td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="row">
+    <a href="list.html" th:href="@{/}">
+        <button type="button">Cancel</button>
+    </a>
+</div>
+</body>
+</html>

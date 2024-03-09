@@ -158,6 +158,7 @@
         <module>hw12-spring-security-form-based</module>
         <module>hw13-spring-security-authorization</module>
         <module>hw14-spring-batch-migration</module>
+        <module>hw17-docker</module>
     </modules>
 
 
