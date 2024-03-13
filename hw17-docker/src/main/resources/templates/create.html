@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Save Book</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+         .errors {
+            color: red;
+        }
+
+    </style>
+
+</head>
+<body>
+<h3>Create Book</h3>
+<form id="create-form" action="create.html"  th:action="@{/create}" th:method="post" th:object="${book}">
+
+    <div class="row">
+        <label for="book-title-save">Title:</label>
+        <input id="book-title-save" name="title" type="text" value="John Doe" th:value="*{title}"/>
+        <div class="errors" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Wrong book title error</div>
+    </div>
+
+    <div class="row">
+        <select id="genreId" th:field="${book.genreId}">
+            <option th:each="genre : ${genres}"
+                    th:value="${genre.id}"
+                    th:text="${genre.name}">
+            </option>
+        </select>
+    </div>
+
+    <div class="row">
+        <select id="authorId" th:field="${book.authorId}">
+            <option th:each="author : ${authors}"
+                    th:value="${author.id}"
+                    th:text="${author.fullName}">
+            </option>
+        </select>
+    </div>
+
+    <div class="row">
+        <button type="submit">Create</button>
+        <a href="list.html" th:href="@{/}">
+            <button type="button">Cancel</button>
+        </a>
+    </div>
+</form>
+</body>
+</html>
