@@ -1,5 +1,6 @@
 package ru.otus.hw.exceptions;
 
+import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,13 @@ public class GlobalExceptionHandler {
     public String handleNotFoundException(NotFoundException ex) {
         logger.error("NotFoundException", ex);
         return ex.getMessage();
+    }
+
+    @ExceptionHandler(FeignException.class)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public String handleFeignException(FeignException ex) {
+        logger.error("Service Unavailable", ex);
+        return "Service Unavailable";
     }
 
     @ExceptionHandler(Exception.class)

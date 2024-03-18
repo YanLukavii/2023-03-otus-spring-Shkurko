@@ -28,32 +28,19 @@ public interface LibraryServiceProxy {
         return List.of(new BookDto(626L,"Default title","Default author","Default genre"));
     }
 
-
     @CircuitBreaker(name = "library-app", fallbackMethod = "fallbackGetCreateBook")
     @PostMapping("/api/books")
     @ResponseStatus(HttpStatus.CREATED)
     BookDto createBook(@Valid @RequestBody BookCreateDto bookCreateDto);
-
-    default BookDto fallbackGetCreateBook(Throwable throwable) {
-        return new BookDto(656L,"Default title","Default author","Default genre");
-    }
 
     @CircuitBreaker(name = "library-app", fallbackMethod = "fallbackDeleteBook")
     @DeleteMapping("/api/books/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteBook(@PathVariable("id") long id);
 
-    default void fallbackDeleteBook(Throwable throwable) {
-
-    }
-
     @CircuitBreaker(name = "library-app", fallbackMethod = "fallbackUpdateBook")
     @PutMapping("/api/books/{id}")
     BookDto updateBook(@PathVariable("id") long id,
                       @Valid @RequestBody BookUpdateDto bookUpdateDto);
-
-    default BookDto fallbackUpdateBook(Throwable throwable) {
-       return new BookDto(651L,"Default title","Default author","Default genre");
-    }
 
 }

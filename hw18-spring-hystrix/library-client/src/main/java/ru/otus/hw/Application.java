@@ -15,5 +15,4 @@ public class Application {
 		System.out.printf("Чтобы перейти на страницу сайта открывай: %n%s%n",
 				"http://localhost:8081/api/books");
 	}
-
 }
